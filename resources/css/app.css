@@ -1,0 +1,37 @@
+/* Font Global */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar & Footer (User) */
+.navbar, .footer {
+    background: linear-gradient(90deg, #0d6efd, #198754);
+}
+.navbar a, .footer {
+    color: #fff !important;
+}
+
+/* Button Theme */
+.btn-theme {
+    background: #0d6efd;
+    color: white;
+}
+.btn-theme:hover {
+    background: #198754;
+}
+
+/* Sidebar (Admin) */
+.sidebar {
+    height: 100vh;
+    background: #0d6efd;
+    color: white;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+    display: block;
+}
+.sidebar a:hover {
+    text-decoration: underline;
+}
