@@ -1,27 +1,65 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Facility;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 
-class FacilityController extends Controller {
-    public function index() {
-        $facilities = Facility::all();
-        return view('admin.facilities', compact('facilities'));
+class FacilityController extends Controller
+{
+    public function index()
+    {
+        $facilities = Facility::with('destination')->latest()->get();
+        $destinations = Destination::all();
+        return view('admin.facilities', compact('facilities', 'destinations'));
     }
 
-    public function store(Request $request) {
-        Facility::create($request->all());
-        return back();
+    public function create()
+    {
+        $destinations = Destination::all();
+        return view('admin.facilities.create', compact('destinations'));
     }
 
-    public function update(Request $request, $id) {
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'destination_id' => 'required|exists:destinations,id',
+            'name'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
+        ]);
+
+        Facility::create($validated);
+
+        return redirect('/admin/facilities')->with('success', 'Facility created successfully!');
+    }
+
+    public function edit($id)
+    {
         $facility = Facility::findOrFail($id);
-        $facility->update($request->all());
-        return back();
+        $destinations = Destination::all();
+        return view('admin.facilities.edit', compact('facility', 'destinations'));
     }
 
-    public function destroy($id) {
-        Facility::destroy($id);
-        return back();
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'destination_id' => 'required|exists:destinations,id',
+            'name'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
+        ]);
+
+        $facility = Facility::findOrFail($id);
+        $facility->update($validated);
+
+        return redirect('/admin/facilities')->with('success', 'Facility updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $facility = Facility::findOrFail($id);
+        $facility->delete();
+
+        return redirect('/admin/facilities')->with('success', 'Facility deleted successfully!');
     }
 }

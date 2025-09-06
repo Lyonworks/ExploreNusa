@@ -9,7 +9,7 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg px-4">
-    <a class="navbar-brand text-white fw-bold" href="/">ExploreNusa</a>
+    <a class="navbar-brand text-white fw-bold" href="{{ route('admin.dashboard') }}">ExploreNusa</a>
   </nav>
 
   <main class="container py-4">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class DestinationController extends Controller
 {
@@ -14,44 +16,78 @@ class DestinationController extends Controller
     */
     public function index()
     {
-        $destinations = Destination::all();
+        $destinations = Destination::latest()->paginate(10);
         return view('admin.destinations', compact('destinations'));
     }
 
     public function create()
     {
-        return view('admin.form', ['destination' => new Destination()]);
+        return view('admin.destinations.create');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name'        => 'required',
-            'location'    => 'required',
-            'description' => 'required'
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255',
+            'location'    => 'required|string|max:255',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Destination::create($request->all());
-        return redirect('/admin/destinations')->with('success', 'Destination created successfully!');
+        // upload image
+        if ($request->hasFile('image')) {
+            $filename = Str::slug($request->name) . '.' . $request->image->extension();
+            $request->image->storeAs('public/destinations', $filename);
+            $validated['image'] = 'destinations/' . $filename;
+        }
+
+        Destination::create($validated);
+
+        return redirect()->route('destinations.index')
+            ->with('success', 'Destination created successfully!');
     }
 
     public function edit($id)
     {
         $destination = Destination::findOrFail($id);
-        return view('admin.form', compact('destination'));
+        return view('admin.destinations.edit', compact('destination'));
     }
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name'        => 'required|string|max:255',
+            'location'    => 'required|string|max:255',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
         $destination = Destination::findOrFail($id);
-        $destination->update($request->all());
-        return redirect('/admin/destinations')->with('success', 'Destination updated successfully!');
+
+        if ($request->hasFile('image')) {
+            $filename = Str::slug($request->name) . '.' . $request->image->extension();
+            $request->image->storeAs('public/destinations', $filename);
+            $validated['image'] = 'destinations/' . $filename;
+        }
+
+        $destination->update($validated);
+
+        return redirect()->route('destinations.index')
+            ->with('success', 'Destination updated successfully!');
     }
 
     public function destroy($id)
     {
-        Destination::destroy($id);
-        return back()->with('success', 'Destination deleted successfully!');
+        $destination = Destination::findOrFail($id);
+
+        if ($destination->image && \Storage::exists('public/' . $destination->image)) {
+            \Storage::delete('public/' . $destination->image);
+        }
+
+        $destination->delete();
+
+        return redirect()->route('destinations.index')
+            ->with('success', 'Destination deleted successfully!');
     }
 
     /*
@@ -59,18 +95,24 @@ class DestinationController extends Controller
     | USER SECTION (LIST & DETAIL)
     |--------------------------------------------------------------------------
     */
-
-    // list destinasi
     public function list()
     {
-        $destinations = Destination::all();
+        $destinations = Destination::withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->latest()
+            ->get();
+
         return view('destinations.index', compact('destinations'));
     }
 
-    // detail destinasi
     public function show($id)
     {
-        $destination = Destination::with(['facilities', 'reviews'])->findOrFail($id);
-        return view('destinations.show', compact('destination'));
+        $destination = Destination::with(['facilities', 'reviews.user'])
+            ->withAvg('reviews', 'rating')
+            ->findOrFail($id);
+
+        $reviews = $destination->reviews()->latest()->get();
+
+        return view('destinations.show', compact('destination', 'reviews'));
     }
 }

@@ -1,16 +1,38 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller {
+    public function index()
+    {
+        $reviews = Review::with(['user','destination'])->latest()->get();
+        return view('admin.reviews', compact('reviews'));
+    }
+
     public function store(Request $request) {
         $request->validate([
             'destination_id'=>'required',
             'rating'=>'required|numeric|min:1|max:5',
             'review'=>'required'
         ]);
-        Review::create($request->all());
-        return back();
+
+        Review::create([
+            'destination_id' => $request->destination_id,
+            'user_id' => auth()->id(),
+            'guest_name' => $request->guest_name,
+            'rating' => $request->rating,
+            'review' => $request->review,
+            'ip_address' => $request->ip(),
+        ]);
+
+        return back()->with('success', 'Thank you for your review!');
+    }
+
+    public function destroy(Review $review)
+    {
+        $review->delete();
+        return redirect()->route('admin.reviews')->with('success', 'Review deleted successfully.');
     }
 }

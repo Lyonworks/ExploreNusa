@@ -9,11 +9,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('destination_id')->constrained('destinations')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('guest_name')->nullable();
             $table->unsignedTinyInteger('rating'); // 1..5
             $table->text('review')->nullable();
-            $table->string('guest_name')->nullable();
-            $table->string('guest_email')->nullable();
-            $table->string('ip_address', 45)->nullable();
             $table->timestamps();
             $table->index(['destination_id','rating']);
         });
