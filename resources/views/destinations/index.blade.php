@@ -14,7 +14,7 @@
     @foreach($destinations as $dest)
     <div class="col-md-3 mb-4">
       <div class="card h-100 shadow-sm">
-        <img src="{{ $dest->image_url }}" class="card-img-top" alt="{{ $dest->name }}">
+        <img src="{{ $dest->image ? asset('storage/'.$dest->image) : 'https://via.placeholder.com/300x200' }}" class="card-img-top" alt="{{ $dest->name }}">
         <div class="card-body">
           <h5 class="card-title">{{ $dest->name }}</h5>
           <p class="text-muted small">{{ Str::limit($dest->description, 60) }}</p>
