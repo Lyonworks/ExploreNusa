@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','Login')
 @section('content')
-<div class="col-md-6 offset-md-3">
+<div class="col-md-6 offset-md-3 mh-100">
   <h3 class="fw-bold mb-3">Login</h3>
   <form action="/login" method="POST">
     @csrf

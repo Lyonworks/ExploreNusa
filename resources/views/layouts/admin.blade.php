@@ -8,14 +8,16 @@
   @vite('resources/css/app.css')
 </head>
 <body>
-<div class="d-flex">
-  <div class="sidebar p-3">
-    <h4>Admin</h4>
-    <a href="/admin/destinations" class="d-block text-white">Destinations</a>
-    <a href="/admin/facilities" class="d-block text-white">Facilities</a>
-    <a href="/admin/logout" class="d-block text-white">Logout</a>
-  </div>
-  <div class="flex-grow-1 p-4">@yield('content')</div>
-</div>
+  <nav class="navbar navbar-expand-lg px-4">
+    <a class="navbar-brand text-white fw-bold" href="/">ExploreNusa</a>
+  </nav>
+
+  <main class="container py-4">
+    @yield('content')
+  </main>
+
+  <footer class="footer text-center py-3 mt-5">
+    <p>© {{ date('Y') }} ExploreNusa. All rights reserved.</p>
+  </footer>
 </body>
 </html>

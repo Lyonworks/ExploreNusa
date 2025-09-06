@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','Register')
 @section('content')
-<div class="col-md-6 offset-md-3">
+<div class="col-md-6 offset-md-3 mh-100">
   <h3 class="fw-bold mb-3">Register User</h3>
   <form action="/register" method="POST">
     @csrf
