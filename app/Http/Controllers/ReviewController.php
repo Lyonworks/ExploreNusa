@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller {
     public function index()
@@ -20,7 +21,7 @@ class ReviewController extends Controller {
 
         Review::create([
             'destination_id' => $request->destination_id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'guest_name' => $request->guest_name,
             'rating' => $request->rating,
             'review' => $request->review,

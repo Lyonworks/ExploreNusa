@@ -4,13 +4,21 @@
 @section('content')
 {{-- Hero Section --}}
 <section class="text-center my-5">
-  <h1 class="fw-bold text-primary">Find Your Suitable Destination</h1>
-  <p class="text-muted">Explore incredible things to do around</p>
-  <form action="/search" method="GET" class="d-flex justify-content-center mt-4" style="max-width:500px;margin:auto;">
-    <input type="text" name="keyword" class="form-control rounded-0 rounded-start" placeholder="Destination">
-    <button type="submit" class="btn btn-theme rounded-0 rounded-end">Search</button>
-  </form>
+  <h1 class="fw-bold" style="color:#0077b6;">Find Your Suitable Destination</h1>
+  <p class="text-muted lead">Explore incredible things to do around</p>
+
+  <div class="d-flex justify-content-center mt-4" style="max-width:500px;margin:auto;">
+    <input
+      type="text"
+      id="keyword"
+      name="keyword"
+      class="form-control rounded-start"
+      placeholder="Search destination...">
+  </div>
 </section>
+
+{{-- Search Results --}}
+<div id="searchResults" class="mt-4 search-results card shadow-sm" style="max-width:666px; margin:auto; display:none;"></div>
 
 {{-- Trending Tours --}}
 <section class="my-5">

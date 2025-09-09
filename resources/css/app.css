@@ -1,33 +1,57 @@
-body { 
+body {
     font-family: 'Poppins', sans-serif;
+    background: linear-gradient(0deg,#0077b6,#00b894);
 }
 
-main { 
-    min-height: 76vh; 
-    overflow-y: auto; 
+main {
+    min-height: 76vh;
+    overflow-y: auto;
 }
 
-.navbar, .footer, .sidebar { 
-    background: linear-gradient(90deg,#0077b6,#00b894); 
+.navbar{
+    background: #00b894;
 }
-.navbar a, .footer, .sidebar a { 
-    color:#fff !important; 
+
+.footer {
+    background: #0077b6;
 }
-.btn-theme { 
-    background:#0077b6; 
-    color:white; 
-    border:none; 
+
+.navbar a, .footer {
+    color:#fff !important;
 }
-.btn-theme:hover { 
-    background:#00b894; 
+
+.btn-theme {
+    background:#0077b6;
+    color:white;
+    border:none;
 }
-.card:hover { 
-    transform: translateY(-5px); 
-    transition:0.3s; 
+
+.btn-theme:hover {
+    background:#00b894;
 }
-.text-warning { 
-    color:#ffc107 !important; 
+
+.card:hover {
+    transform: translateY(-5px);
+    transition:0.3s;
 }
+
+.text-warning {
+    color:#ffc107 !important;
+}
+
+.search-results {
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 12px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.search-results::-webkit-scrollbar {
+    display: none;
+}
+
+.search-item:hover { background: rgba(0,0,0,0.05); cursor: pointer; }
 
 .rating-wrapper {
   margin-top: 0.35rem;

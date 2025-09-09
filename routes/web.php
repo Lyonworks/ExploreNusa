@@ -15,7 +15,7 @@ use App\Http\Middleware\EnsureRole;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/destinations', [DestinationController::class, 'list']);
 Route::get('/destinations/{id}', [DestinationController::class, 'show']);
-Route::get('/search', [HomeController::class, 'search']);
+Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
 
 // AUTH USER
 Route::get('/register', [AuthController::class, 'registerForm']);

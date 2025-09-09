@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 class DestinationController extends Controller
@@ -80,8 +81,8 @@ class DestinationController extends Controller
     {
         $destination = Destination::findOrFail($id);
 
-        if ($destination->image && \Storage::exists('public/' . $destination->image)) {
-            \Storage::delete('public/' . $destination->image);
+        if ($destination->image && Storage::exists('public/' . $destination->image)) {
+            Storage::delete('public/' . $destination->image);
         }
 
         $destination->delete();
@@ -92,7 +93,7 @@ class DestinationController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | USER SECTION (LIST & DETAIL)
+    | USER SECTION]
     |--------------------------------------------------------------------------
     */
     public function list()
@@ -115,4 +116,16 @@ class DestinationController extends Controller
 
         return view('destinations.show', compact('destination', 'reviews'));
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->get('keyword');
+
+        $results = Destination::where('name', 'like', "%{$keyword}%")
+            ->orWhere('location', 'like', "%{$keyword}%")
+            ->get();
+
+        return response()->json($results);
+    }
+
 }
