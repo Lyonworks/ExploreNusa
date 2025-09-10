@@ -4,7 +4,6 @@
 
 <h3 class="fw-bold mb-3">Destinations</h3>
 
-{{-- Alert --}}
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>
 @endif

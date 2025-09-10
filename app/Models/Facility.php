@@ -9,7 +9,7 @@ class Facility extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['destination_id', 'name', 'description'];
+    protected $fillable = ['destination_id', 'facility'];
 
     public function destination()
     {

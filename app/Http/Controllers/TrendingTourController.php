@@ -17,15 +17,8 @@ class TrendingTourController extends Controller {
     }
     public function store(Request $request) {
         $validated = $request->validate([
-            'title'=>'required',
-            'destination_id'=>'nullable|exists:destinations,id',
-            'image'=>'nullable|image|max:2048'
+            'destination_id'=>'nullable|exists:destinations,id'
         ]);
-        if ($request->hasFile('image')) {
-            $filename = Str::slug($request->title).'.'.$request->image->extension();
-            $request->image->storeAs('public/trending', $filename);
-            $validated['image'] = 'trending/'.$filename;
-        }
         TrendingTour::create($validated);
         return redirect()->route('trending.index')->with('success','Trending Tour created!');
     }
@@ -37,15 +30,8 @@ class TrendingTourController extends Controller {
     public function update(Request $request,$id) {
         $tour = TrendingTour::findOrFail($id);
         $validated = $request->validate([
-            'title'=>'required',
-            'destination_id'=>'nullable|exists:destinations,id',
-            'image'=>'nullable|image|max:2048'
+            'destination_id'=>'nullable|exists:destinations,id'
         ]);
-        if ($request->hasFile('image')) {
-            $filename = Str::slug($request->title).'.'.$request->image->extension();
-            $request->image->storeAs('public/trending', $filename);
-            $validated['image'] = 'trending/'.$filename;
-        }
         $tour->update($validated);
         return redirect()->route('trending.index')->with('success','Trending Tour updated!');
     }

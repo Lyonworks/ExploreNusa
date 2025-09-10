@@ -11,7 +11,7 @@ class FacilityController extends Controller
     public function index()
     {
         return response()->json(
-            Facility::with('destination:id,name')
+            Facility::with('destination:id,facility')
                 ->latest()->paginate(50)
         );
     }
@@ -21,8 +21,7 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'destination_id' => 'required|exists:destinations,id',
-            'name' => 'required|string|max:100',
-            'description' => 'nullable|string',
+            'facility' => 'required|string|max:100',
         ]);
         $facility = Facility::create($data);
         return response()->json(['message' => 'Fasilitas dibuat','data' => $facility], 201);
@@ -34,8 +33,7 @@ class FacilityController extends Controller
         $facility = Facility::findOrFail($id);
         $data = $request->validate([
             'destination_id' => 'sometimes|exists:destinations,id',
-            'name' => 'sometimes|string|max:100',
-            'description' => 'nullable|string',
+            'facility' => 'sometimes|string|max:100',
         ]);
         $facility->update($data);
         return response()->json(['message' => 'Fasilitas diupdate','data' => $facility]);

@@ -25,8 +25,7 @@ class FacilityController extends Controller
     {
         $validated = $request->validate([
             'destination_id' => 'required|exists:destinations,id',
-            'name'           => 'required|string|max:255',
-            'description'    => 'nullable|string',
+            'facility'       => 'required|string|max:255',
         ]);
 
         Facility::create($validated);
@@ -45,8 +44,7 @@ class FacilityController extends Controller
     {
         $validated = $request->validate([
             'destination_id' => 'required|exists:destinations,id',
-            'name'           => 'required|string|max:255',
-            'description'    => 'nullable|string',
+            'facility'       => 'required|string|max:255',
         ]);
 
         $facility = Facility::findOrFail($id);

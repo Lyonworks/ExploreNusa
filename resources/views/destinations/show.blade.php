@@ -1,67 +1,62 @@
 @extends('layouts.app')
 
-@section('title',$destination->name)
+@section('title', $destination->name)
 
 @section('content')
-  {{-- Breadcrumbs --}}
-  <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item"><a href="/destinations">Destinations</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{ $destination->name }}</li>
-    </ol>
-  </nav>
-
-  {{-- Destination Title --}}
-  <h2 class="fw-bold text-primary">{{ $destination->name }}</h2>
-  <p class="text-muted">{{ $destination->location }}</p>
-
-  {{-- Photos --}}
-  <div class="row mb-4">
-    <div class="col-md-8">
-      <img src="{{ $destination->main_photo }}" class="img-fluid rounded shadow-sm" alt="">
+<section class="my-5 container">
+  <div class="row">
+    {{-- Gambar --}}
+    <div class="col-md-6">
+      <img src="{{ $destination->image ? asset('storage/'.$destination->image) : 'https://via.placeholder.com/600x400' }}"
+           class="img-fluid rounded shadow-sm"
+           alt="{{ $destination->name }}">
     </div>
-    <div class="col-md-4">
-      <div class="row g-2">
-        @foreach($destination->photos as $photo)
-          <div class="col-6">
-            <img src="{{ $photo }}" class="img-fluid rounded shadow-sm" alt="">
-          </div>
-        @endforeach
-      </div>
+
+    {{-- Detail --}}
+    <div class="col-md-6">
+      <h1 class="fw-bold text-primary">{{ $destination->name }}</h1>
+      <p class="text-muted">
+        <i class="bi bi-geo-alt-fill"></i> {{ $destination->location }}
+      </p>
+
+      {{-- Rating --}}
+      @if($destination->reviews_avg_rating)
+        <p>
+          ⭐ {{ number_format($destination->reviews_avg_rating, 1) }}
+          ({{ $destination->reviews_count }} reviews)
+        </p>
+      @endif
+
+      <p class="mt-3">{{ $destination->description }}</p>
+
+      {{-- Facilities --}}
+      @if($destination->facilities->count())
+        <h5 class="mt-4">Facilities</h5>
+        <ul class="list-unstyled">
+          @foreach($destination->facilities as $facility)
+            <li>• {{ $facility->facility }}</li>
+          @endforeach
+        </ul>
+      @endif
+
+      <a href="{{ route('destinations.index') }}" class="btn btn-secondary mt-3">
+        ← Back to Destinations
+      </a>
     </div>
-  </div>
-
-  {{-- Overview --}}
-  <div class="mb-4">
-    <h4 class="text-success">Overview</h4>
-    <p>{{ $destination->description }}</p>
-  </div>
-
-  {{-- Facilities --}}
-  <div class="mb-4">
-    <h4 class="text-success">Facilities</h4>
-    <ul>
-      @foreach($destination->facilities as $fac)
-        <li>{{ $fac }}</li>
-      @endforeach
-    </ul>
-  </div>
-
-  {{-- Itinerary Suggestion --}}
-  <div class="mb-4">
-    <h4 class="text-success">Itinerary Suggestion</h4>
-    <p>{{ $destination->itinerary }}</p>
   </div>
 
   {{-- Reviews --}}
-  <div class="mb-4">
-    <h4 class="text-success">Traveler Reviews</h4>
-    @foreach($destination->reviews as $review)
-      <div class="border rounded p-3 mb-3 shadow-sm">
-        <strong>{{ $review->user }}</strong> ⭐ {{ $review->rating }}/5
+  <div class="mt-5">
+    <h3>Reviews</h3>
+    @forelse($reviews as $review)
+      <div class="border-bottom py-2">
+        <strong>{{ $review->user->name ?? 'Anonymous' }}</strong>
+        <span class="text-warning">⭐ {{ $review->rating }}</span>
         <p class="mb-0">{{ $review->comment }}</p>
       </div>
-    @endforeach
+    @empty
+      <p class="text-muted">No reviews yet.</p>
+    @endforelse
   </div>
+</section>
 @endsection

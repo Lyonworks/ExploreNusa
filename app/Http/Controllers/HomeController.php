@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Destination;
+use App\Models\TrendingTour;
+use App\Models\TopDestination;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -10,28 +12,26 @@ class HomeController extends Controller
 {
     public function index()
 {
-    // Semua destinasi (misal untuk search dropdown)
     $destinations = Destination::select('id', 'name', 'image', 'slug')
         ->orderBy('name', 'asc')
         ->get();
 
-    // 6 review terbaru
+    $trendingTours = TrendingTour::with('destination')
+        ->latest()
+        ->take(4)
+        ->get();
+
+    $topDestinations = TopDestination::with('destination')
+        ->latest()
+        ->take(3)
+        ->get();
+
     $reviews = Review::with(['user','destination'])
         ->latest()
         ->take(6)
         ->get();
 
-    // 4 destinasi trending
-    $trendingTours = Destination::latest()
-        ->take(4)
-        ->get();
-
-    // 3 destinasi top berdasarkan rating
-    $topDestinations = Destination::latest()
-        ->take(3)
-        ->get();
-
-    return view('home', compact('destinations', 'reviews', 'trendingTours', 'topDestinations'));
+    return view('home', compact('destinations', 'trendingTours', 'topDestinations', 'reviews'));
 }
 
 

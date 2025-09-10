@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up(): void {
-        Schema::create('top_destinations', function (Blueprint $table) {
+        Schema::create('facilities', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('image')->nullable();
-            $table->foreignId('destination_id')->nullable()->constrained('destinations')->nullOnDelete();
+            $table->foreignId('destination_id')->constrained('destinations')->cascadeOnDelete();
+            $table->string('facility');
             $table->timestamps();
+            $table->index(['destination_id','facility']);
         });
     }
     public function down(): void {
-        Schema::dropIfExists('top_destinations');
+        Schema::dropIfExists('facilities');
     }
 };

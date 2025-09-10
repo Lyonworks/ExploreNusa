@@ -29,7 +29,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a href="{{ route('destinations.index') }}" class="btn btn-secondary">Cancel</a>
+    <a href="{{ route('admin.destinations') }}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 @endsection

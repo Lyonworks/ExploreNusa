@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\TopDestination;
 use App\Models\Destination;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class TopDestinationController extends Controller {
     public function index() {
@@ -17,15 +16,8 @@ class TopDestinationController extends Controller {
     }
     public function store(Request $request) {
         $validated = $request->validate([
-            'title'=>'required',
-            'destination_id'=>'nullable|exists:destinations,id',
-            'image'=>'nullable|image|max:2048'
+            'destination_id'=>'nullable|exists:destinations,id'
         ]);
-        if ($request->hasFile('image')) {
-            $filename = Str::slug($request->title).'.'.$request->image->extension();
-            $request->image->storeAs('public/top', $filename);
-            $validated['image'] = 'top/'.$filename;
-        }
         TopDestination::create($validated);
         return redirect()->route('top.index')->with('success','Top Tour created!');
     }
@@ -37,15 +29,8 @@ class TopDestinationController extends Controller {
     public function update(Request $request,$id) {
         $top = TopDestination::findOrFail($id);
         $validated = $request->validate([
-            'title'=>'required',
-            'destination_id'=>'nullable|exists:destinations,id',
-            'image'=>'nullable|image|max:2048'
+            'destination_id'=>'nullable|exists:destinations,id'
         ]);
-        if ($request->hasFile('image')) {
-            $filename = Str::slug($request->title).'.'.$request->image->extension();
-            $request->image->storeAs('public/top', $filename);
-            $validated['image'] = 'top/'.$filename;
-        }
         $top->update($validated);
         return redirect()->route('top.index')->with('success','Top Tour updated!');
     }

@@ -13,8 +13,8 @@ use App\Http\Middleware\EnsureRole;
 
 // USER
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/destinations', [DestinationController::class, 'list']);
-Route::get('/destinations/{id}', [DestinationController::class, 'show']);
+Route::get('/destinations', [DestinationController::class, 'list'])->name('destinations.index');
+Route::get('/destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
 Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
 
 // AUTH USER
@@ -35,7 +35,7 @@ Route::middleware(['auth', EnsureRole::class . ':1'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Destinations CRUD
-    Route::get('/admin/destinations', [DestinationController::class, 'index'])->name('destinations.index');
+    Route::get('/admin/destinations', [DestinationController::class, 'index'])->name('admin.destinations');
     Route::get('/admin/destinations/create', [DestinationController::class, 'create'])->name('destinations.create');
     Route::post('/admin/destinations', [DestinationController::class, 'store'])->name('destinations.store');
     Route::get('/admin/destinations/{id}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
@@ -43,7 +43,7 @@ Route::middleware(['auth', EnsureRole::class . ':1'])->group(function () {
     Route::delete('/admin/destinations/{id}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
 
     // Facilities CRUD
-    Route::get('/admin/facilities', [FacilityController::class, 'index'])->name('facilities.index');
+    Route::get('/admin/facilities', [FacilityController::class, 'index'])->name('admin.facilities');
     Route::get('/admin/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
     Route::post('/admin/facilities', [FacilityController::class, 'store'])->name('facilities.store');
     Route::get('/admin/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title','Create Facility')
 
 @section('content')
@@ -15,16 +15,14 @@
         @endforeach
       </select>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Name</label>
-      <input type="text" name="name" class="form-control" placeholder="Facility name" required>
+      <label class="form-label">Facility</label>
+      <input type="text" name="facility" class="form-control" placeholder="Facility" required>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea name="description" class="form-control" rows="4" placeholder="Enter description"></textarea>
-    </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
-    <a href="{{ route('facilities.index') }}" class="btn btn-secondary">Cancel</a>
+    <a href="{{ route('admin.facilities') }}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 @endsection

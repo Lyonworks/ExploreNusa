@@ -5,7 +5,7 @@
 @section('content')
   {{-- Hero --}}
   <section class="text-center my-5">
-    <h1 class="fw-bold text-primary">Discover Top Destinations</h1>
+    <h1 class="fw-bold text-primary">Discover Destinations</h1>
     <p class="text-muted">Choose your dream travel experience with ExploreNusa</p>
   </section>
 
@@ -18,7 +18,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ $dest->name }}</h5>
           <p class="text-muted small">{{ Str::limit($dest->description, 60) }}</p>
-          <a href="{{ url('/destinations/'.$dest->id) }}" class="btn btn-theme w-100">View Detail</a>
+          <a href="{{ route('destinations.show', $dest->id) }}" class="btn btn-theme w-100">View Detail</a>
         </div>
       </div>
     </div>

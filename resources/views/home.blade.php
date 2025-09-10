@@ -3,7 +3,7 @@
 
 @section('content')
 {{-- Hero Section --}}
-<section class="text-center my-5">
+<section class="text-center mt-5 mb-3">
   <h1 class="fw-bold" style="color:#0077b6;">Find Your Suitable Destination</h1>
   <p class="text-muted lead">Explore incredible things to do around</p>
 
@@ -18,42 +18,46 @@
 </section>
 
 {{-- Search Results --}}
-<div id="searchResults" class="mt-4 search-results card shadow-sm" style="max-width:666px; margin:auto; display:none;"></div>
+<div id="searchResults" class="search-results card shadow-sm" style="max-width:666px; margin:auto; display:none;"></div>
 
 {{-- Trending Tours --}}
 <section class="my-5">
-  <h3 class="fw-bold mb-4">Trending Tours</h3>
-  <div class="row g-4">
-    @foreach($trendingTours as $tour)
-    <div class="col-6 col-md-3">
-      <div class="card shadow-sm h-100">
-        <img src="{{ $tour->image ? asset('storage/'.$tour->image) : 'https://via.placeholder.com/300x200' }}" class="card-img-top" alt="{{ $tour->name }}">
-        <div class="card-body text-center">
-          <h6>{{ $tour->name }}</h6>
-          <p class="text-muted">{{ Str::limit($tour->description, 50) }}</p>
+    <h3 class="fw-bold mb-4">Trending Tours</h3>
+    <div class="row g-4">
+        @foreach($trendingTours as $tour)
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm h-100">
+                <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
+                    class="card-img-top"
+                    alt="{{ $tour->destination->name }}">
+                <div class="card-body text-center">
+                    <h6>{{ $tour->destination->name }}</h6>
+                    <p class="text-muted">{{ Str::limit($tour->destination->description, 50) }}</p>
+                </div>
+            </div>
         </div>
-      </div>
+        @endforeach
     </div>
-    @endforeach
-  </div>
 </section>
 
 {{-- Top Destination --}}
 <section class="my-5">
-  <h3 class="fw-bold mb-4">Top Destination</h3>
-  <div class="row g-4">
-    @foreach($topDestinations as $top)
-    <div class="col-12 col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="{{ $top->image ? asset('storage/'.$top->image) : 'https://via.placeholder.com/400x250' }}" class="card-img-top" alt="{{ $top->name }}">
-        <div class="card-body">
-          <h6 class="card-title">{{ $top->name }}</h6>
-          <p class="text-muted">{{ Str::limit($top->description, 100) }}</p>
+    <h3 class="fw-bold mb-4">Top Destination</h3>
+    <div class="row g-4">
+        @foreach($topDestinations as $top)
+        <div class="col-12 col-md-4">
+            <div class="card shadow-sm h-100">
+                <img src="{{ $top->destination->image ? asset('storage/'.$top->destination->image) : 'https://via.placeholder.com/400x250' }}"
+                    class="card-img-top"
+                    alt="{{ $top->destination->name }}">
+                <div class="card-body">
+                    <h6 class="card-title">{{ $top->destination->name }}</h6>
+                    <p class="text-muted">{{ Str::limit($top->destination->description, 100) }}</p>
+                </div>
+            </div>
         </div>
-      </div>
+        @endforeach
     </div>
-    @endforeach
-  </div>
 </section>
 
 {{-- Testimonial --}}

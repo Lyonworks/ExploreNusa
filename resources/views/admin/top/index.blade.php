@@ -11,22 +11,15 @@
 <table class="table table-bordered">
   <thead>
     <tr class="text-center">
-      <th>Title</th>
       <th>Destination</th>
-      <th>Image</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     @foreach($tops as $top)
       <tr class="text-center">
-        <td>{{ $top->title }}</td>
         <td>{{ $top->destination->name ?? '-' }}</td>
-        <td>
-          @if($top->image)
-            <img src="{{ asset('storage/'.$top->image) }}" width="100">
-          @endif
-        </td>
+        
         <td>
           <a href="{{ route('top.edit',$top->id) }}" class="btn btn-sm btn-primary">Edit</a>
           <form action="{{ route('top.destroy',$top->id) }}" method="POST" class="d-inline">

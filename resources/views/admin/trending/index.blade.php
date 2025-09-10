@@ -11,22 +11,15 @@
 <table class="table table-bordered">
   <thead>
     <tr class="text-center">
-      <th>Title</th>
       <th>Destination</th>
-      <th>Image</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
     @foreach($tours as $tour)
       <tr class="text-center">
-        <td>{{ $tour->title }}</td>
         <td>{{ $tour->destination->name ?? '-' }}</td>
-        <td>
-          @if($tour->image)
-            <img src="{{ asset('storage/'.$tour->image) }}" width="100">
-          @endif
-        </td>
+        
         <td>
           <a href="{{ route('trending.edit',$tour->id) }}" class="btn btn-sm btn-primary">Edit</a>
           <form action="{{ route('trending.destroy',$tour->id) }}" method="POST" class="d-inline">
