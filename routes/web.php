@@ -9,6 +9,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Middleware\EnsureRole;
 
 // USER
@@ -16,6 +17,10 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/destinations', [DestinationController::class, 'list'])->name('destinations.index');
 Route::get('/destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
 Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
+Route::get('/blog', [BlogController::class, 'list'])->name('blogs.index');
+
+// REVIEW
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // AUTH USER
 Route::get('/register', [AuthController::class, 'registerForm']);
@@ -23,9 +28,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'loginForm']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
-
-// REVIEW
-Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // ADMIN
 Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
@@ -71,9 +73,19 @@ Route::middleware(['auth', EnsureRole::class . ':1'])->group(function () {
     ]);
 
     // Reviews - hanya index & destroy
-     Route::resource('/admin/reviews', ReviewController::class)->only(['index','destroy'])->names([
+    Route::resource('/admin/reviews', ReviewController::class)->only(['index','destroy'])->names([
         'index'=>'reviews.index',
         'destroy'=>'reviews.destroy',
+    ]);
+
+    // Blogs CRUD
+    Route::resource('/admin/blogs', BlogController::class)->names([
+        'index'=>'admin.blogs',
+        'create'=>'blogs.create',
+        'store'=>'blogs.store',
+        'edit'=>'blogs.edit',
+        'update'=>'blogs.update',
+        'destroy'=>'blogs.destroy',
     ]);
 });
 

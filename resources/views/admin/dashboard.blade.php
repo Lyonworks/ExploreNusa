@@ -60,6 +60,17 @@
         </div>
       </div>
     </div>
+
+    {{-- Card Blogs --}}
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="fw-bold mb-3">Manage Blogs</h5>
+          <p class="text-muted">Create, update, delete, and view all blogs.</p>
+          <a href="/admin/blogs" class="btn btn-theme">Go to Blogs</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
