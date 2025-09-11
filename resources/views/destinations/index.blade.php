@@ -5,7 +5,7 @@
 @section('content')
   {{-- Hero --}}
   <section class="text-center my-5">
-    <h1 class="fw-bold text-primary">Discover Destinations</h1>
+    <h1 class="fw-bold">Discover Destinations</h1>
     <p class="text-muted">Choose your dream travel experience with ExploreNusa</p>
   </section>
 

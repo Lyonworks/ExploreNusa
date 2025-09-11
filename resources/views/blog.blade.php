@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="container my-5">
-  <h1 class="fw-bold text-primary text-center mb-4">Our Blog</h1>
+  <h1 class="fw-bold text-center mb-4">Our Blog</h1>
   <div class="row g-4">
     @forelse($blogs as $blog)
     <div class="col-md-4">

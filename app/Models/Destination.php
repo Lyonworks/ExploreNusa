@@ -25,12 +25,12 @@ class Destination extends Model {
     protected static function booted() {
         static::creating(function($model){
             if (empty($model->slug)) {
-                $model->slug = Str::slug($model->name.'-'.uniqid());
+                $model->slug = Str::slug($model->name());
             }
         });
         static::updating(function($model){
             if (empty($model->slug)) {
-                $model->slug = Str::slug($model->name.'-'.uniqid());
+                $model->slug = Str::slug($model->name());
             }
         });
     }

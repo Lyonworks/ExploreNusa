@@ -9,84 +9,85 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Middleware\EnsureRole;
 
-// USER
+// ==================== USER ====================
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/destinations', [DestinationController::class, 'list'])->name('destinations.index');
 Route::get('/destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
 Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
-Route::get('/blog', [BlogController::class, 'list'])->name('blogs.index');
+Route::get('/blogs', [BlogController::class, 'list'])->name('blogs.index');
 
-// REVIEW
+// ==================== REVIEW ===================
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
-// AUTH USER
+// ==================== AUTH =====================
 Route::get('/register', [AuthController::class, 'registerForm']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'loginForm']);
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ADMIN
-Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'login']);
+// ==================== SUPER ADMIN ==============
+Route::middleware(['auth', EnsureRole::class . ':1'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class)->only(['index','edit','update','destroy']);
+});
 
-Route::middleware(['auth', EnsureRole::class . ':1'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+// ==================== ADMIN ====================
+Route::middleware(['auth', EnsureRole::class . ':1,2'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Destinations CRUD
-    Route::get('/admin/destinations', [DestinationController::class, 'index'])->name('admin.destinations');
-    Route::get('/admin/destinations/create', [DestinationController::class, 'create'])->name('destinations.create');
-    Route::post('/admin/destinations', [DestinationController::class, 'store'])->name('destinations.store');
-    Route::get('/admin/destinations/{id}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
-    Route::put('/admin/destinations/{id}', [DestinationController::class, 'update'])->name('destinations.update');
-    Route::delete('/admin/destinations/{id}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
+    Route::get('/destinations', [DestinationController::class, 'index'])->name('admin.destinations');
+    Route::get('/destinations/create', [DestinationController::class, 'create'])->name('destinations.create');
+    Route::post('/destinations', [DestinationController::class, 'store'])->name('destinations.store');
+    Route::get('/destinations/{id}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
+    Route::put('/destinations/{id}', [DestinationController::class, 'update'])->name('destinations.update');
+    Route::delete('/destinations/{id}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
 
     // Facilities CRUD
-    Route::get('/admin/facilities', [FacilityController::class, 'index'])->name('admin.facilities');
-    Route::get('/admin/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
-    Route::post('/admin/facilities', [FacilityController::class, 'store'])->name('facilities.store');
-    Route::get('/admin/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');
-    Route::put('/admin/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
-    Route::delete('/admin/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
+    Route::get('/facilities', [FacilityController::class, 'index'])->name('admin.facilities');
+    Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
+    Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
+    Route::get('/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');
+    Route::put('/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
+    Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
 
     // Trending CRUD
-    Route::resource('/admin/trending', TrendingTourController::class)->names([
-        'index'=>'trending.index',
-        'create'=>'trending.create',
-        'store'=>'trending.store',
-        'edit'=>'trending.edit',
-        'update'=>'trending.update',
-        'destroy'=>'trending.destroy',
+    Route::resource('/trending', TrendingTourController::class)->names([
+        'index'   => 'trending.index',
+        'create'  => 'trending.create',
+        'store'   => 'trending.store',
+        'edit'    => 'trending.edit',
+        'update'  => 'trending.update',
+        'destroy' => 'trending.destroy',
     ]);
 
-    // Top CRUD
-    Route::resource('/admin/top', TopDestinationController::class)->names([
-        'index'=>'top.index',
-        'create'=>'top.create',
-        'store'=>'top.store',
-        'edit'=>'top.edit',
-        'update'=>'top.update',
-        'destroy'=>'top.destroy',
+    // Top Destinations CRUD
+    Route::resource('/top', TopDestinationController::class)->names([
+        'index'   => 'top.index',
+        'create'  => 'top.create',
+        'store'   => 'top.store',
+        'edit'    => 'top.edit',
+        'update'  => 'top.update',
+        'destroy' => 'top.destroy',
     ]);
 
-    // Reviews - hanya index & destroy
-    Route::resource('/admin/reviews', ReviewController::class)->only(['index','destroy'])->names([
-        'index'=>'reviews.index',
-        'destroy'=>'reviews.destroy',
+    // Reviews (index & destroy only)
+    Route::resource('/reviews', ReviewController::class)->only(['index', 'destroy'])->names([
+        'index'   => 'reviews.index',
+        'destroy' => 'reviews.destroy',
     ]);
 
     // Blogs CRUD
-    Route::resource('/admin/blogs', BlogController::class)->names([
-        'index'=>'admin.blogs',
-        'create'=>'blogs.create',
-        'store'=>'blogs.store',
-        'edit'=>'blogs.edit',
-        'update'=>'blogs.update',
-        'destroy'=>'blogs.destroy',
+    Route::resource('/blogs', BlogController::class)->names([
+        'index'   => 'admin.blogs',
+        'create'  => 'blogs.create',
+        'store'   => 'blogs.store',
+        'edit'    => 'blogs.edit',
+        'update'  => 'blogs.update',
+        'destroy' => 'blogs.destroy',
     ]);
 });
-
-

@@ -2,7 +2,7 @@
 @section('title','Manage Blogs')
 @section('content')
 <h2 class="fw-bold mb-4">Manage Blogs</h2>
-<a href="{{ route('blogs.create') }}" class="btn btn-primary mb-3">+ Add Blog</a>
+<a href="{{ route('blogs.create') }}" class="btn btn-theme mb-3">+ Add Blog</a>
 
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>

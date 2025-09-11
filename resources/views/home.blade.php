@@ -4,10 +4,10 @@
 @section('content')
 {{-- Hero Section --}}
 <section class="text-center mt-5 mb-3">
-  <h1 class="fw-bold" style="color:#0077b6;">Find Your Suitable Destination</h1>
+  <h1 class="fw-bold">Find Your Suitable Destination</h1>
   <p class="text-muted lead">Explore incredible things to do around</p>
 
-  <div class="d-flex justify-content-center mt-4" style="max-width:500px;margin:auto;">
+  <div class="d-flex justify-content-center mt-4" style="max-width:500px; margin:auto;">
     <input
       type="text"
       id="keyword"
@@ -26,15 +26,17 @@
     <div class="row g-4">
         @foreach($trendingTours as $tour)
         <div class="col-6 col-md-3">
-            <div class="card shadow-sm h-100">
-                <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
-                    class="card-img-top"
-                    alt="{{ $tour->destination->name }}">
-                <div class="card-body text-center">
-                    <h6>{{ $tour->destination->name }}</h6>
-                    <p class="text-muted">{{ Str::limit($tour->destination->description, 50) }}</p>
+            <a href="{{ route('destinations.show', $tour->destination->id) }}" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100">
+                    <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
+                        class="card-img-top"
+                        alt="{{ $tour->destination->name }}">
+                    <div class="card-body text-center">
+                        <h6>{{ $tour->destination->name }}</h6>
+                        <p class="text-muted">{{ Str::limit($tour->destination->description, 50) }}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         @endforeach
     </div>
@@ -46,15 +48,17 @@
     <div class="row g-4">
         @foreach($topDestinations as $top)
         <div class="col-12 col-md-4">
-            <div class="card shadow-sm h-100">
-                <img src="{{ $top->destination->image ? asset('storage/'.$top->destination->image) : 'https://via.placeholder.com/400x250' }}"
-                    class="card-img-top"
-                    alt="{{ $top->destination->name }}">
-                <div class="card-body">
-                    <h6 class="card-title">{{ $top->destination->name }}</h6>
-                    <p class="text-muted">{{ Str::limit($top->destination->description, 100) }}</p>
+            <a href="{{ route('destinations.show', $top->destination->id) }}" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100">
+                    <img src="{{ $top->destination->image ? asset('storage/'.$top->destination->image) : 'https://via.placeholder.com/400x250' }}"
+                        class="card-img-top"
+                        alt="{{ $top->destination->name }}">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ $top->destination->name }}</h6>
+                        <p class="text-muted">{{ Str::limit($top->destination->description, 100) }}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         @endforeach
     </div>
@@ -122,6 +126,7 @@
         <div class="mb-3">
           <label class="form-label">Destination</label>
           <select name="destination_id" class="form-control" required>
+            <option value="">Select Destination</option>
             @foreach($destinations as $dest)
               <option value="{{ $dest->id }}" {{ old('destination_id') == $dest->id ? 'selected' : '' }}>
                 {{ $dest->name }}

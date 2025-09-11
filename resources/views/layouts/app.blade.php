@@ -18,7 +18,7 @@
         <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/destinations">Destination</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="/blog">Blog</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/blogs">Blog</a></li>
         </ul>
     <div class="d-flex align-items-center justify-content-center">
         <div class="vr mx-3 bg-white" style="opacity:0.3; height:32px;"></div>
@@ -41,8 +41,8 @@
               <small class="text-muted">{{ Auth::user()->email }}</small>
             </li>
             <li><hr class="dropdown-divider"></li>
-            @if(Auth::user()->role === 'admin')
-              <li><a class="dropdown-item" href="/admin/dashboard">Admin Dashboard</a></li>
+            @if(in_array(Auth::user()->role_id, [1, 2]))
+                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
             @endif
             <li>
               <form action="/logout" method="POST" class="m-0">

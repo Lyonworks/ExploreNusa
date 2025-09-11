@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller {
     public function loginForm() {
-        return view('admin.login');
+        return view('auth.login');
     }
 
     public function login(Request $request) {
@@ -14,19 +14,19 @@ class AdminController extends Controller {
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // gunakan cek role_id (misal admin memiliki id 1)
-            if ((int) $user->role_id === 1) {
-                return redirect()->route('admin.dashboard'); // Dashboard admin
-            } else {
-                Auth::logout();
-                return back()->withErrors(['email' => 'Unauthorized. Admin only.']);
+            // Hanya role_id 1 (superadmin) & 2 (admin) yang boleh masuk
+            if (in_array((int) $user->role_id, [1, 2])) {
+                return redirect()->route('admin.dashboard');
             }
+
+            // Kalau role_id = 3 (user), tampilkan 404
+            Auth::logout();
+            return response()->view('errors.404', [], 404);
         }
 
         return back()->withErrors(['email'=>'Invalid admin credentials']);
     }
 
-    // Ditambahkan: method index untuk route /admin/dashboard
     public function index() {
         return view('admin.dashboard');
     }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EnsureRole
 {
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
         if (!Auth::check()) {
             return redirect('/login')->withErrors(['auth' => 'Please login first.']);
@@ -15,16 +15,10 @@ class EnsureRole
 
         $user = Auth::user();
 
-        // gunakan pengecekan berdasarkan role_id jika parameter numeric,
-        // jika bukan numeric fallback ke pencocokan nama role
-        if (is_numeric($role)) {
-            if ((int) $user->role_id !== (int) $role) {
-                abort(403, 'You are not authorized to access this page.');
-            }
-        } else {
-            if (optional($user->role)->name !== $role) {
-                abort(403, 'You are not authorized to access this page.');
-            }
+        $allowedRoles = array_map('intval', $roles);
+
+        if (!in_array((int) $user->role_id, $allowedRoles)) {
+            return response()->view('errors.404', [], 404);
         }
 
         return $next($request);

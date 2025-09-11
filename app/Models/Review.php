@@ -8,6 +8,14 @@ class Review extends Model {
     protected $fillable = [
         'destination_id','user_id','rating','review','guest_name','ip_address'
     ];
-    public function destination() { return $this->belongsTo(Destination::class); }
-    public function user() { return $this->belongsTo(User::class); }
+        
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }
 }

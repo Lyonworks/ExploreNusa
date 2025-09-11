@@ -1,6 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(0deg,#0077b6,#00b894);
+    background: #ACD1AF;
 }
 
 main {
@@ -8,24 +8,28 @@ main {
     overflow-y: auto;
 }
 
+h1{
+    color: #2F4F4F;
+}
+
 .navbar{
-    background: #00b894;
+    background: #2F4F4F;
     color:#fff !important
 }
 
 .footer {
-    background: #0077b6;
+    background: #2F4F4F;
     color:#fff !important
 }
 
 .btn-theme {
-    background:#0077b6;
+    background:#2F4F4F;
     color:white;
     border:none;
 }
 
 .btn-theme:hover {
-    background:#00b894;
+    background:#ACD1AF;
 }
 
 .card:hover {

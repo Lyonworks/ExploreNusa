@@ -25,7 +25,6 @@ class ReviewController extends Controller {
             'guest_name' => $request->guest_name,
             'rating' => $request->rating,
             'review' => $request->review,
-            'ip_address' => $request->ip(),
         ]);
 
         return back()->with('success', 'Thank you for your review!');
