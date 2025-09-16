@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -32,6 +33,15 @@ class BlogController extends Controller
         }
 
         Blog::create($validated);
+
+        Activity::create([
+                'user_id' => auth()->id(),
+                'action' => 'create',
+                'model' => 'Blog',
+                'model_id' => $blog->id,
+                'description' => "Created blog: {$blog->title}"
+            ]);
+
         return redirect('/admin/blogs')->with('success','Blog created successfully!');
     }
 
@@ -53,11 +63,30 @@ class BlogController extends Controller
         }
 
         $blog->update($validated);
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'update',
+            'model' => 'Blog',
+            'model_id' => $blog->id,
+            'description' => "Updated blog: {$blog->title}"
+        ]);
+
         return redirect('/admin/blogs')->with('success','Blog updated successfully!');
     }
 
     public function destroy(Blog $blog) {
+        $blog = Blog::findOrFail($id);
         $blog->delete();
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'delete',
+            'model' => 'Blog',
+            'model_id' => $blog->id,
+            'description' => "Deleted blog: {$blog->title}"
+        ]);
+
         return redirect('/admin/blogs')->with('success','Blog deleted successfully!');
     }
 

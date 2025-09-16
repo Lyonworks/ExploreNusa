@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,17 +36,23 @@ class DestinationController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // upload image
         if ($request->hasFile('image')) {
             $filename = Str::slug($request->name) . '.' . $request->image->extension();
             $request->image->storeAs('public/destinations', $filename);
             $validated['image'] = 'destinations/' . $filename;
         }
 
-        Destination::create($validated);
+        $destination = Destination::create($validated);
 
-        return redirect()->route('destinations.index')
-            ->with('success', 'Destination created successfully!');
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'create',
+            'model' => 'Destination',
+            'model_id' => $destination->id,
+            'description' => "Created destination: {$destination->name}"
+        ]);
+
+        return redirect('/admin/destinations')->with('success', 'Destination created successfully!');
     }
 
     public function edit($id)
@@ -73,8 +80,15 @@ class DestinationController extends Controller
 
         $destination->update($validated);
 
-        return redirect()->route('destinations.index')
-            ->with('success', 'Destination updated successfully!');
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'update',
+            'model' => 'Destination',
+            'model_id' => $destination->id,
+            'description' => "Updated destination: {$destination->name}"
+        ]);
+
+        return redirect('/admin/destinations')->with('success', 'Destination updated successfully!');
     }
 
     public function destroy($id)
@@ -87,13 +101,20 @@ class DestinationController extends Controller
 
         $destination->delete();
 
-        return redirect()->route('destinations.index')
-            ->with('success', 'Destination deleted successfully!');
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'delete',
+            'model' => 'Destination',
+            'model_id' => $destination->id,
+            'description' => "Deleted destination: {$destination->name}"
+        ]);
+
+        return redirect('/admin/destinations')->with('success', 'Destination deleted successfully!');
     }
 
     /*
     |--------------------------------------------------------------------------
-    | USER SECTION]
+    | USER SECTION
     |--------------------------------------------------------------------------
     */
     public function list()
@@ -108,13 +129,15 @@ class DestinationController extends Controller
 
     public function show($id)
     {
-        $destination = Destination::with(['facilities', 'reviews.user'])
-            ->withAvg('reviews', 'rating')
-            ->findOrFail($id);
+        $destination = Destination::with('facilities','reviews.user')->findOrFail($id);
 
-        $reviews = $destination->reviews()->latest()->get();
+        // daftar destinasi untuk dropdown di form review
+        $destinations = Destination::all();
 
-        return view('destinations.show', compact('destination', 'reviews'));
+        // ambil reviews (sudah eager-loaded di atas, tapi tetap ambil collection)
+        $reviews = $destination->reviews()->with('user')->latest()->get();
+
+        return view('destinations.show', compact('destination', 'reviews', 'destinations'));
     }
 
     public function search(Request $request)

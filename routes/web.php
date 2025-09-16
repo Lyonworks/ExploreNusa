@@ -24,7 +24,7 @@ Route::get('/blogs', [BlogController::class, 'list'])->name('blogs.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // ==================== AUTH =====================
-Route::get('/register', [AuthController::class, 'registerForm']);
+Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

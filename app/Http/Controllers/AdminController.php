@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Http\Controllers;
+use App\Models\User;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +30,13 @@ class AdminController extends Controller {
         return back()->withErrors(['email'=>'Invalid admin credentials']);
     }
 
-    public function index() {
-        return view('admin.dashboard');
+    public function index()
+    {
+        $activities = Activity::with('user')
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('admin.dashboard', compact('activities'));
     }
 }

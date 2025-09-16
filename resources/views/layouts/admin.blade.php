@@ -12,7 +12,10 @@
   <div class="d-flex">
     {{-- Sidebar --}}
     <div class="text-white p-3 min-vh-100" style="width: 240px; background: #2F4F4F;">
-      <h4 class="mb-4 text-center">ExploreNusa</h4>
+      <h4 class="mb-3 text-center">
+        <a href="/" class="text-decoration-none text-white fw-bold">ExploreNusa</a>
+      </h4>
+      <hr class="border-light opacity-50 mb-4">
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
           <a href="/admin/dashboard" class="nav-link text-white">☰ Dashboard</a>

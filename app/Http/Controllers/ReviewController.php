@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,12 +20,20 @@ class ReviewController extends Controller {
             'review'=>'required'
         ]);
 
-        Review::create([
+        $review = Review::create([
             'destination_id' => $request->destination_id,
             'user_id' => Auth::id(),
             'guest_name' => $request->guest_name,
             'rating' => $request->rating,
             'review' => $request->review,
+        ]);
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'create',
+            'model' => 'Review',
+            'model_id' => $review->id,
+            'description' => "Created review by: {$review->user->name}"
         ]);
 
         return back()->with('success', 'Thank you for your review!');
@@ -33,6 +42,15 @@ class ReviewController extends Controller {
     public function destroy(Review $review)
     {
         $review->delete();
-        return redirect()->route('admin.reviews')->with('success', 'Review deleted successfully.');
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'delete',
+            'model' => 'Review',
+            'model_id' => $review->id,
+            'description' => "Deleted review by: {$review->user->name}"
+        ]);
+
+        return redirect('/admin/reviews')->with('success', 'Review deleted successfully.');
     }
 }

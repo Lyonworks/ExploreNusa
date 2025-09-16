@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -23,20 +24,33 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'role_id' => 'required|exists:roles,id'
+        $request->validate(['role_id' => 'required|exists:roles,id']);
+
+        $user->update(['role_id' => $request->role_id]);
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'update',
+            'model' => 'User',
+            'model_id' => $user->id,
+            'description' => "Updated user by: {$user->name}"
         ]);
 
-        $user->update([
-            'role_id' => $request->role_id
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success','Role updated successfully.');
+        return redirect('/admin/users')->with('success','Role updated successfully.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success','User deleted successfully.');
+
+        Activity::create([
+            'user_id' => auth()->id(),
+            'action' => 'delete',
+            'model' => 'User',
+            'model_id' => $user->id,
+            'description' => "Deleted user by: {$user->name}"
+        ]);
+
+        return redirect('/admin/users')->with('success','User deleted successfully.');
     }
 }
