@@ -66,36 +66,36 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    document.getElementById('keyword').addEventListener('input', function() {
-        let keyword = this.value.trim();
+        document.getElementById('keyword').addEventListener('input', function() {
+            let keyword = this.value.trim();
 
-        if(keyword.length < 2) {
-            document.getElementById('searchResults').style.display = 'none';
-            return;
-        }
-
-        fetch(`/search?keyword=${encodeURIComponent(keyword)}`)
-        .then(res => res.json())
-        .then(data => {
-            let container = document.getElementById('searchResults');
-            container.innerHTML = '';
-
-            if(data.length > 0) {
-            data.forEach((item, index) => {
-                container.innerHTML += `
-                <div class="p-3 search-item ${index < data.length-1 ? 'border-bottom' : ''}">
-                    <h6 class="fw-bold mb-1">${item.name}, <span class="text-secondary">${item.location}</span></h6>
-                    <p class="text-muted mb-0">${item.description ?? ''}</p>
-                </div>
-                `;
-            });
-            container.style.display = 'block';
-            } else {
-            container.innerHTML = `<div class="p-3 text-muted">No results found.</div>`;
-            container.style.display = 'block';
+            if(keyword.length < 2) {
+                document.getElementById('searchResults').style.display = 'none';
+                return;
             }
+
+            fetch(`/search?keyword=${encodeURIComponent(keyword)}`)
+            .then(res => res.json())
+            .then(data => {
+                let container = document.getElementById('searchResults');
+                container.innerHTML = '';
+
+                if(data.length > 0) {
+                data.forEach((item, index) => {
+                    container.innerHTML += `
+                    <div class="p-3 search-item ${index < data.length-1 ? 'border-bottom' : ''}">
+                        <h6 class="fw-bold mb-1">${item.name}, <span class="text-secondary">${item.location}</span></h6>
+                        <p class="text-muted mb-0">${item.description ?? ''}</p>
+                    </div>
+                    `;
+                });
+                container.style.display = 'block';
+                } else {
+                container.innerHTML = `<div class="p-3 text-muted">No results found.</div>`;
+                container.style.display = 'block';
+                }
+            });
         });
-    });
-  </script>
+    </script>
 </body>
 </html>

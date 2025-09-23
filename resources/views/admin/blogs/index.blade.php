@@ -1,8 +1,14 @@
 @extends('layouts.admin')
 @section('title','Manage Blogs')
 @section('content')
-<h2 class="fw-bold mb-4">Manage Blogs</h2>
-<a href="{{ route('blogs.create') }}" class="btn btn-theme mb-3">+ Add Blog</a>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="fw-bold">Manage Blogs</h3>
+
+  <div class="d-flex gap-2">
+    <a href="{{ url('/admin/destinations/create') }}" class="btn btn-theme">+ Add Destination</a>
+  </div>
+</div>
 
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>

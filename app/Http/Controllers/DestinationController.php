@@ -117,9 +117,15 @@ class DestinationController extends Controller
     | USER SECTION
     |--------------------------------------------------------------------------
     */
-    public function list()
+    public function list(Request $request   )
     {
-        $destinations = Destination::withAvg('reviews', 'rating')
+        $query = Destination::query();
+
+        if ($request->filled('location')) {
+            $query->where('location', $request->location);
+        }
+
+        $destinations = $query->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->latest()
             ->get();

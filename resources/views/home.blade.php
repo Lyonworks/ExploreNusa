@@ -84,30 +84,61 @@
     </div>
   @endif
 
-  @forelse($reviews as $review)
-    <div class="card shadow-sm p-3 mb-4">
-      <div class="d-flex align-items-start">
-        <i class="bi bi-person-circle fs-3 me-3"></i>
-        <div>
-          <h6 class="fw-bold mb-1">
-            {{ $review->guest_name ?? $review->user->name ?? 'Anonymous' }}
-            @if($review->destination)
-              <small class="text-secondary">· {{ $review->destination->name }}</small>
-            @endif
-          </h6>
+  <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @forelse ($reviews->chunk(5) as $chunkIndex => $chunk)
+        <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
+            <div class="row justify-content-center">
+            @foreach ($chunk as $review)
+              <div class="col-md-2">
+                <div class="card shadow-sm p-3 h-100">
+                  <div class="d-flex align-items-center mb-2">
+                    <i class="bi bi-person-circle fs-3 me-2 text-dark"></i>
+                    <div>
+                        <h6 class="mb-0 fw-bold">
+                            {{ $review->guest_name ?? $review->user->name ?? 'Anonymous' }}
+                            @if($review->destination)
+                            <span class="text-secondary"> · {{ $review->destination->name }}</span>
+                            @endif
+                        </h6>
+                    </div>
+                  </div>
 
-          <p class="text-warning mb-1">
-            {!! str_repeat('★', $review->rating) . str_repeat('☆', 5 - $review->rating) !!}
-          </p>
+                    <div class="review-rating text-warning">
+                        {!! str_repeat('★', $review->rating) . str_repeat('☆', 5 - $review->rating) !!}
+                    </div>
 
-          <p class="text-muted mb-0">{{ $review->review }}</p>
-          <small class="text-secondary">{{ $review->created_at->diffForHumans() }}</small>
+                    <p class="review-text">{{ $review->review }}</p>
+                    <small class="text-secondary">{{ $review->created_at->diffForHumans() }}</small>
+                </div>
+              </div>
+            @endforeach
+            </div>
         </div>
-      </div>
+        @empty
+        <p class="text-muted">No reviews yet. Be the first!</p>
+        @endforelse
     </div>
-  @empty
-    <p class="text-muted">No reviews yet. Be the first!</p>
-  @endforelse
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon custom-arrow" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon custom-arrow" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
+    <!-- Pagination Indicators -->
+    <div class="carousel-indicators mt-3">
+        @foreach ($reviews->chunk(5) as $chunkIndex => $chunk)
+        <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="{{ $chunkIndex }}"
+            class="{{ $chunkIndex == 0 ? 'active' : '' }}" aria-current="true"
+            aria-label="Slide {{ $chunkIndex + 1 }}"></button>
+        @endforeach
+    </div>
+  </div>
 
   {{-- Review Form --}}
   <div class="card shadow-sm p-4">

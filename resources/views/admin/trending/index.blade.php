@@ -1,8 +1,14 @@
 @extends('layouts.admin')
 @section('title','Manage Trending Tours')
 @section('content')
-<h2 class="fw-bold mb-4">Trending Tours</h2>
-<a href="{{ route('trending.create') }}" class="btn btn-theme mb-3">+ Add Tour</a>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="fw-bold">Manage Trending Tours</h3>
+
+  <div class="d-flex gap-2">
+    <a href="{{ route('trending.create') }}" class="btn btn-theme mb-3">+ Add Tour</a>
+  </div>
+</div>
 
 @if(session('success'))
   <div class="alert alert-success">{{ session('success') }}</div>

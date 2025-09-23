@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 
 class FacilityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $facilities = Facility::with('destination')->latest()->get();
         $destinations = Destination::all();
+
+        $facilities = Facility::with('destination')
+            ->when($request->destination_id, fn($q) => $q->where('destination_id', $request->destination_id))
+            ->latest()
+            ->get();
+
         return view('admin.facilities', compact('facilities', 'destinations'));
     }
 
