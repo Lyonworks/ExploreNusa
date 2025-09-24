@@ -7,17 +7,39 @@
   <h3 class="fw-bold">Manage Facilities</h3>
 
   <div class="d-flex gap-2">
-    <form action="{{ route('admin.facilities') }}" method="GET" class="d-flex gap-2">
-        <select name="destination_id" class="form-select form-select-sm">
-            <option value="">All Destinations</option>
-            @foreach($destinations as $destination)
-                <option value="{{ $destination->id }}"
-                    {{ request('destination_id') == $destination->id ? 'selected' : '' }}>
-                    {{ $destination->name }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit" class="btn btn-theme btn-sm">Filter</button>
+    <form action="{{ route('admin.facilities') }}" method="GET" class="d-flex gap-2 align-items-center">
+        <input type="hidden" name="destination_id" value="{{ request('destination_id') }}">
+
+        <div class="dropdown">
+            <button class="btn btn-theme btn-sm dropdown-toggle" type="button" id="facilityDestinationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ $destinations->firstWhere('id', request('destination_id'))?->name ?: 'All Destinations' }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="facilityDestinationDropdown">
+                <li>
+                    <button
+                        class="dropdown-item {{ request('destination_id') ? '' : 'active' }}"
+                        type="button"
+                        data-value=""
+                        data-name="All Destinations"
+                        onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=destination_id]').value=v; f.querySelector('#facilityDestinationDropdown').innerText = n || 'All Destinations'; f.submit();})(this)">
+                        All Destinations
+                    </button>
+                </li>
+                @foreach($destinations as $destination)
+                    <li>
+                        <button
+                            class="dropdown-item {{ request('destination_id') == $destination->id ? 'active' : '' }}"
+                            type="button"
+                            data-value="{{ $destination->id }}"
+                            data-name="{{ $destination->name }}"
+                            onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=destination_id]').value=v; f.querySelector('#facilityDestinationDropdown').innerText = n || 'All Destinations'; f.submit();})(this)">
+                            {{ $destination->name }}
+                        </button>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+
         <a href="{{ route('admin.facilities') }}" class="btn btn-theme btn-sm">Reset</a>
     </form>
 
@@ -38,8 +60,9 @@
   </div>
 @endif
 
-<div class="table-responsive">
-    <table class="table table-bordered table-striped align-middle">
+<div class="card shadow-sm rounded-4 p-3">
+  <div class="table-responsive">
+    <table class="table table-theme align-middle mb-0">
         <thead class="table-light">
             <tr class="text-center">
                 <th width="20%">Destination</th>
@@ -68,6 +91,7 @@
             @endforelse
         </tbody>
     </table>
+  </div>
 </div>
 
 @endsection

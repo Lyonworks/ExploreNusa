@@ -23,14 +23,20 @@ h1{
 }
 
 .btn-theme {
-    background:#2F4F4F;
-    color:white;
-    border:none;
-}
-
-.btn-theme:hover {
-    background:#2F4F4F;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  --bs-btn-font-weight: 300;
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #2F4F4F;
+  --bs-btn-border-color: #2F4F4F;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #263f3f;
+  --bs-btn-hover-border-color: #263f3f;
+  --bs-btn-focus-shadow-rgb: 47, 79, 79;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #1e3232;
+  --bs-btn-active-border-color: #1e3232;
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #2F4F4F;
+  --bs-btn-disabled-border-color: #2F4F4F;
 }
 
 .btn-back {

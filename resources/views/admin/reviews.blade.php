@@ -5,27 +5,66 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="fw-bold">Manage Reviews</h3>
 
-        <form action="{{ route('reviews.index') }}" method="GET" class="d-flex gap-2">
-            <select name="destination_id" class="form-select form-select-sm">
-                <option value="">All Destinations</option>
-                @foreach($destinations as $destination)
-                    <option value="{{ $destination->id }}"
-                        {{ request('destination_id') == $destination->id ? 'selected' : '' }}>
-                        {{ $destination->name }}
-                    </option>
-                @endforeach
-            </select>
+        <form action="{{ route('reviews.index') }}" method="GET" class="d-flex gap-2 align-items-center">
+            <input type="hidden" name="destination_id" value="{{ request('destination_id') }}">
 
-            <select name="rating" class="form-select form-select-sm">
-                <option value="">All Ratings</option>
-                @for($i=5; $i>=1; $i--)
-                    <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
-                        {{ $i }} Stars
-                    </option>
-                @endfor
-            </select>
+            <div class="dropdown">
+                <button class="btn btn-theme dropdown-toggle btn-sm" type="button" id="destinationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ $destinations->firstWhere('id', request('destination_id'))?->name ?? 'All Destinations' }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="destinationDropdown">
+                    <li>
+                        <button class="dropdown-item {{ request('destination_id') ? '' : 'active' }}"
+                                type="button"
+                                data-value=""
+                                data-name="All Destinations"
+                                onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=destination_id]').value=v; f.querySelector('#destinationDropdown').innerText = n || 'All Destinations'; f.submit();})(this)">
+                            All Destinations
+                        </button>
+                    </li>
+                    @foreach($destinations as $destination)
+                        <li>
+                            <button class="dropdown-item {{ request('destination_id') == $destination->id ? 'active' : '' }}"
+                                    type="button"
+                                    data-value="{{ $destination->id }}"
+                                    data-name="{{ $destination->name }}"
+                                    onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=destination_id]').value=v; f.querySelector('#destinationDropdown').innerText = n || 'All Destinations'; f.submit();})(this)">
+                                {{ $destination->name }}
+                            </button>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
 
-            <button type="submit" class="btn btn-theme btn-sm">Filter</button>
+            <input type="hidden" name="rating" value="{{ request('rating') }}">
+            <div class="dropdown">
+                <button class="btn btn-theme dropdown-toggle btn-sm" type="button" id="ratingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ request('rating') ? request('rating').' Stars' : 'All Ratings' }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="ratingDropdown">
+                    <li>
+                        <button class="dropdown-item {{ request('rating') ? '' : 'active' }}"
+                                type="button"
+                                data-value=""
+                                data-name="All Ratings"
+                                onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=rating]').value=v; f.querySelector('#ratingDropdown').innerText = n || 'All Ratings'; f.submit();})(this)">
+                            All Ratings
+                        </button>
+                    </li>
+                    @for($i = 5; $i >= 1; $i--)
+                        <li>
+                            <button class="dropdown-item {{ request('rating') == $i ? 'active' : '' }}"
+                                    type="button"
+                                    data-value="{{ $i }}"
+                                    data-name="{{ $i }} Stars"
+                                    onclick="(function(b){var f=b.closest('form'),v=b.getAttribute('data-value'),n=b.getAttribute('data-name'); f.querySelector('input[name=rating]').value=v; f.querySelector('#ratingDropdown').innerText = n || 'All Ratings'; f.submit();})(this)">
+                                {{ $i }} Stars
+                            </button>
+                        </li>
+                    @endfor
+                </ul>
+            </div>
+
             <a href="{{ route('reviews.index') }}" class="btn btn-theme btn-sm">Reset</a>
         </form>
     </div>
@@ -34,8 +73,9 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped align-middle">
+    <div class="card shadow-sm rounded-4 p-3">
+      <div class="table-responsive">
+        <table class="table table-theme align-middle mb-0">
             <thead>
                 <tr class="text-center">
                     <th>User</th>
@@ -69,5 +109,6 @@
                 @endforeach
             </tbody>
         </table>
+      </div>
     </div>
 @endsection
