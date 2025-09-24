@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>@yield('title','ExploreNusa')</title>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   @vite('resources/css/app.css')
@@ -64,7 +65,17 @@
   <footer class="footer text-center py-3 mt-5">
     <p>© {{ date('Y') }} ExploreNusa. All rights reserved.</p>
   </footer>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        AOS.init({
+        duration: 800,
+        once: false,
+        offset: 100
+        });
+    });
+  </script>
   <script>
         document.getElementById('keyword').addEventListener('input', function() {
             let keyword = this.value.trim();

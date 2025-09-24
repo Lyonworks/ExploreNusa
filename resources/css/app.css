@@ -219,6 +219,23 @@ h1{
   border-radius: 50%;
 }
 
+[data-aos="fade-up"] {
+  transform: translateY(50px);
+}
+
+[data-aos="fade-down"] {
+  transform: translateY(50px);
+}
+
+[data-aos="fade-left"] {
+  transform: translateX(-50px);
+}
+
+[data-aos="fade-right"] {
+  transform: translateX(50px);
+}
+
+
 @media (max-width: 768px) {
   .btn-back {
     right: 16px;

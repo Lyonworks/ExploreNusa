@@ -4,22 +4,22 @@
 
 @section('content')
 <section class="my-5 container">
-  <div class="card shadow-sm border-0 rounded-4 p-4">
+  <div class="card shadow-sm border-0 rounded-4 p-4" data-aos="fade-up" data-aos-duration="1000">
     <div class="row g-4">
 
       {{-- Kolom kiri --}}
-      <div class="col-md-5 d-flex flex-column">
+      <div class="col-md-5 d-flex flex-column" data-aos="fade-right" data-aos-duration="1000">
         {{-- Gambar --}}
         <img src="{{ $destination->image ? asset('storage/'.$destination->image) : 'https://via.placeholder.com/600x400' }}"
              class="img-fluid rounded-3 mb-3 w-100"
              alt="{{ $destination->name }}">
 
         {{-- Reviews --}}
-        <div class="flex-grow-1">
+        <div class="flex-grow-1" data-aos="fade-up" data-aos-delay="200">
           <h6 class="fw-bold mb-3">Reviews</h6>
           <div style="max-height: 200px; overflow-y: auto;" class="pe-2">
             @forelse($reviews as $review)
-              <div class="card border-0 shadow-sm mb-2">
+              <div class="card border-0 shadow-sm mb-2" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
                 <div class="card-body py-2">
                   <p class="mb-1 fw-semibold">{{ $review->user->name ?? 'Anonymous' }}</p>
                   <div class="review-line">
@@ -38,27 +38,28 @@
       </div>
 
       {{-- Kolom kanan --}}
-      <div class="col-md-7 position-relative pb-5">
+      <div class="col-md-7 position-relative pb-5" data-aos="fade-left" data-aos-duration="1000">
         <h3 class="fw-bold mb-1">{{ $destination->name }}</h3>
         <p class="text-muted mb-2">
           <i class="bi bi-geo-alt-fill"></i> {{ $destination->location }}
         </p>
 
-        <p class="mb-4">{{ $destination->description }}</p>
+        <p class="mb-4" data-aos="fade-up" data-aos-delay="200">{{ $destination->description }}</p>
 
         {{-- Facilities --}}
         @if($destination->facilities->count())
-          <h6 class="fw-bold">Facilities</h6>
+          <h6 class="fw-bold" data-aos="fade-up" data-aos-delay="300">Facilities</h6>
           <ul class="list-unstyled mb-0">
             @foreach($destination->facilities as $facility)
-              <li>• {{ $facility->facility }}</li>
+              <li data-aos="fade-up" data-aos-delay="{{ 400 + $loop->index * 100 }}">• {{ $facility->facility }}</li>
             @endforeach
           </ul>
         @endif
 
         <a href="{{ route('destinations.index') }}"
            class="btn btn-theme position-absolute btn-back"
-           aria-label="Back to Destinations">
+           aria-label="Back to Destinations"
+           data-aos="fade-up" data-aos-delay="500">
           <i class="bi bi-arrow-left"></i> Back to Destinations
         </a>
       </div>
@@ -67,15 +68,15 @@
   </div>
 </section>
 
-<section class="my-5 container">
+<section class="my-5 container" data-aos="fade-up" data-aos-duration="1000">
   {{-- flash / pesan sukses --}}
   @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success" data-aos="zoom-in">{{ session('success') }}</div>
   @endif
 
   {{-- errors --}}
   @if($errors->any())
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" data-aos="zoom-in">
       <ul class="mb-0">
         @foreach($errors->all() as $err)
           <li>{{ $err }}</li>
@@ -85,7 +86,7 @@
   @endif
 
   {{-- Review Form --}}
-  <div class="card shadow-sm border-0 rounded-4 p-4">
+  <div class="card shadow-sm border-0 rounded-4 p-4" data-aos="fade-up" data-aos-delay="200">
     <h5 class="fw-bold mb-3">Leave Your Review</h5>
     @if($destinations->isEmpty())
       <p class="text-muted">No destinations available. Please add destinations first.</p>
@@ -93,12 +94,12 @@
       <form action="{{ route('reviews.store') }}" method="POST">
         @csrf
 
-        <div class="mb-3">
+        <div class="mb-3" data-aos="fade-up" data-aos-delay="300">
           <label class="form-label">Your Name</label>
           <input type="text" name="guest_name" class="form-control" placeholder="Enter your name" value="{{ old('guest_name', optional(auth()->user())->name) }}">
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" data-aos="fade-up" data-aos-delay="400">
           <label class="form-label">Destination</label>
           <input type="hidden" name="destination_id" value="{{ $destination->id }}">
           <select class="form-control" disabled>
@@ -106,7 +107,7 @@
           </select>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" data-aos="fade-up" data-aos-delay="500">
           <label class="form-label d-block">Rating</label>
           <div class="rating-wrapper">
             <div class="rating" aria-label="Rating">
@@ -118,12 +119,12 @@
           </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" data-aos="fade-up" data-aos-delay="600">
           <label class="form-label">Comment</label>
           <textarea name="review" class="form-control" rows="3" placeholder="Write your experience...">{{ old('review') }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-theme">Submit Review</button>
+        <button type="submit" class="btn btn-theme" data-aos="zoom-in" data-aos-delay="700">Submit Review</button>
       </form>
     @endif
   </div>
