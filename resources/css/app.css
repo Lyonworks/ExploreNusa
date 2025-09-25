@@ -219,6 +219,10 @@ h1{
   border-radius: 50%;
 }
 
+[data-aos] {
+  overflow: hidden;
+}
+
 [data-aos="fade-up"] {
   transform: translateY(50px);
 }
