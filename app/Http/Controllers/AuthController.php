@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller {
-    public function registerForm() { return view('auth.register'); }
-    public function loginForm() { return view('auth.login'); }
+    public function registerForm() { return view('auth'); }
+    public function loginForm() { return view('auth'); }
 
     public function register(Request $request) {
         $request->validate(['name'=>'required','email'=>'required|email|unique:users','password'=>'required|min:6']);

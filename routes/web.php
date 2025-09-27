@@ -24,11 +24,15 @@ Route::get('/blogs', [BlogController::class, 'list'])->name('blogs.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // ==================== AUTH =====================
-Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
 
 // ==================== SUPER ADMIN ==============
 Route::middleware(['auth', EnsureRole::class . ':1'])->prefix('admin')->name('admin.')->group(function () {
