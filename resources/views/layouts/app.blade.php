@@ -94,18 +94,21 @@
                 container.innerHTML = '';
 
                 if(data.length > 0) {
-                data.forEach((item, index) => {
-                    container.innerHTML += `
-                    <div class="p-3 search-item ${index < data.length-1 ? 'border-bottom' : ''}">
-                        <h6 class="fw-bold mb-1">${item.name}, <span class="text-secondary">${item.location}</span></h6>
-                        <p class="text-muted mb-0">${item.description ?? ''}</p>
-                    </div>
-                    `;
-                });
-                container.style.display = 'block';
+                    data.forEach((item, index) => {
+                        container.innerHTML += `
+                            <a href="/destinations/${item.id}"
+                            class="d-block p-3 search-item text-decoration-none text-dark ${index < data.length-1 ? 'border-bottom' : ''}">
+                                <h6 class="fw-bold mb-1">${item.name},
+                                    <span class="text-secondary">${item.location ?? ''}</span>
+                                </h6>
+                                <p class="text-muted mb-0">${item.description ?? ''}</p>
+                            </a>
+                        `;
+                    });
+                    container.style.display = 'block';
                 } else {
-                container.innerHTML = `<div class="p-3 text-muted">No results found.</div>`;
-                container.style.display = 'block';
+                    container.innerHTML = `<div class="p-3 text-muted">No results found.</div>`;
+                    container.style.display = 'block';
                 }
             });
         });

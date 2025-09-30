@@ -22,7 +22,8 @@
 <div id="searchResults"
      class="search-results card shadow-sm"
      style="max-width:666px; margin:auto; display:none;"
-     data-aos="fade-up" ></div>
+     data-aos="fade-up" >
+</div>
 
 {{-- Trending Tours --}}
 <section class="my-5" data-aos="fade-up" >
