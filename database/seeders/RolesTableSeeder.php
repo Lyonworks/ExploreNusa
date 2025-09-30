@@ -9,6 +9,6 @@ class RolesTableSeeder extends Seeder {
             ['id'=>1,'name'=>'superadmin','created_at'=>now(),'updated_at'=>now()],
             ['id'=>2,'name'=>'admin','created_at'=>now(),'updated_at'=>now()],
             ['id'=>3,'name'=>'user','created_at'=>now(),'updated_at'=>now()],
-        ], ['id'], ['name','updated_at']);
+        ],  ['id'], ['name','updated_at']);
     }
 }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title','Admin Panel')</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   @vite('resources/css/app.css')
 </head>
 <body >
@@ -18,15 +19,17 @@
       <hr class="border-light opacity-50 mb-4">
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <a href="/admin/dashboard" class="nav-link text-white">☰ Dashboard</a>
+          <a href="/admin/dashboard" class="nav-link text-white"><img src="{{ asset('storage/icons/bars-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Dashboard</a>
         </li>
         @if(Auth::check() && Auth::user()->role_id == 1)
           <li class="nav-item mb-2">
-            <a href="{{ route('admin.users.index') }}" class="nav-link text-white">👤 Users</a>
+            <a href="{{ route('admin.users.index') }}" class="nav-link text-white">
+              <img src="{{ asset('storage/icons/user-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Users
+            </a>
           </li>
         @endif
         <li class="nav-item mb-2">
-          <a href="/admin/destinations" class="nav-link text-white">📍 Destinations</a>
+          <a href="/admin/destinations" class="nav-link text-white"><img src="{{ asset('storage/icons/location-dot-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Destinations</a>
         </li>
         <li class="nav-item mb-2">
           <a href="/admin/facilities" class="nav-link text-white">🏨 Facilities</a>
