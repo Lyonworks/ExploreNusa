@@ -37,11 +37,24 @@
            class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100">
             <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
-                 class="card-img-top"
-                 alt="{{ $tour->destination->name }}">
+                class="card-img-top"
+                alt="{{ $tour->destination->name }}">
             <div class="card-body text-center">
-              <h6>{{ $tour->destination->name }}</h6>
-              <p class="text-muted">{{ Str::limit($tour->destination->description, 50) }}</p>
+                <h6>{{ $tour->destination->name }}</h6>
+                <p class="text-muted">{{ Str::limit($tour->destination->description, 50) }}</p>
+
+                @php
+                    $avgRating = round($tour->destination->reviews->avg('rating'), 1); // rata-rata 1 angka desimal
+                @endphp
+
+                @if($avgRating > 0)
+                    <div class="text-warning mb-2">
+                    {!! str_repeat('★', floor($avgRating)) . str_repeat('☆', 5 - floor($avgRating)) !!}
+                    <small>({{ $avgRating }})</small>
+                    </div>
+                @else
+                    <small class="text-muted">No reviews yet</small>
+                @endif
             </div>
           </div>
         </a>

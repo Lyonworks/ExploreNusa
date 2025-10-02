@@ -29,22 +29,22 @@
           </li>
         @endif
         <li class="nav-item mb-2">
-          <a href="/admin/destinations" class="nav-link text-white"><img src="{{ asset('storage/icons/location-dot-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Destinations</a>
+          <a href="/admin/destinations" class="nav-link text-white"><img src="{{ asset('storage/icons/location-dot-solid-full.svg') }}" width="22" height="22" class="me-2"> Destinations</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/facilities" class="nav-link text-white">🏨 Facilities</a>
+          <a href="/admin/facilities" class="nav-link text-white"><img src="{{ asset('storage/icons/map-pin-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Facilities</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/trending" class="nav-link text-white">🔥 Trending Tours</a>
+          <a href="/admin/trending" class="nav-link text-white"><img src="{{ asset('storage/icons/fire-solid-full.svg') }}" width="22" height="22" class="me-2"> Trending Tours</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/top" class="nav-link text-white">⭐ Top Destinations</a>
+          <a href="/admin/top" class="nav-link text-white"><img src="{{ asset('storage/icons/star-solid-full.svg') }}" width="22" height="22" class="me-2"> Top Destinations</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/reviews" class="nav-link text-white">💬 Reviews</a>
+          <a href="/admin/reviews" class="nav-link text-white"><img src="{{ asset('storage/icons/comment-solid-full.svg') }}" width="22" height="22" class="me-2"> Reviews</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/blogs" class="nav-link text-white">📝 Blogs</a>
+          <a href="/admin/blogs" class="nav-link text-white"><img src="{{ asset('storage/icons/newspaper-solid-full.svg') }}" width="22" height="22" class="me-2"> Blogs</a>
         </li>
       </ul>
     </div>
