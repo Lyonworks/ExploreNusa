@@ -43,7 +43,7 @@
         <a href="{{ route('admin.facilities') }}" class="btn btn-theme btn-sm">Reset</a>
     </form>
 
-    <a href="{{ url('/admin/facilities/create') }}" class="btn btn-theme">+ Add Facility</a>
+    <a href="{{ route('facilities.create') }}" class="btn btn-theme">+ Add Facility</a>
   </div>
 </div>
 

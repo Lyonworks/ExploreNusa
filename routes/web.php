@@ -19,6 +19,7 @@ Route::get('/destinations', [DestinationController::class, 'list'])->name('desti
 Route::get('/destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
 Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
 Route::get('/blogs', [BlogController::class, 'list'])->name('blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
 
 // ==================== REVIEW ===================
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');

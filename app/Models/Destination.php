@@ -34,4 +34,9 @@ class Destination extends Model {
             }
         });
     }
+
+    public function blogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_destination', 'destination_id', 'blog_id');
+    }
 }

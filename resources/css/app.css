@@ -189,6 +189,22 @@ main {
 }
 
 /* ===============================
+   Blogs
+================================= */
+.blog-content p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.blog-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* ===============================
    AOS Fix & Custom Animations
 ================================= */
 [data-aos] {

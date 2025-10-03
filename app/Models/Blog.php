@@ -10,6 +10,11 @@ class Blog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'excerpt', 'content', 'image'
+        'title', 'slug', 'author', 'content', 'image'
     ];
+
+    public function destinations()
+    {
+        return $this->belongsToMany(Destination::class, 'blog_destination', 'blog_id', 'destination_id');
+    }
 }

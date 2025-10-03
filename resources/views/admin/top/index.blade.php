@@ -6,7 +6,7 @@
   <h3 class="fw-bold">Manage Top Destinations</h3>
 
   <div class="d-flex gap-2">
-    <a href="{{ route('top.create') }}" class="btn btn-theme mb-3">+ Add Destination</a>
+    <a href="{{ route('top.create') }}" class="btn btn-theme">+ Add Top</a>
   </div>
 </div>
 

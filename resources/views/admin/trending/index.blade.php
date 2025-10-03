@@ -6,7 +6,7 @@
   <h3 class="fw-bold">Manage Trending Tours</h3>
 
   <div class="d-flex gap-2">
-    <a href="{{ route('trending.create') }}" class="btn btn-theme mb-3">+ Add Tour</a>
+    <a href="{{ route('trending.create') }}" class="btn btn-theme">+ Add Trending</a>
   </div>
 </div>
 
