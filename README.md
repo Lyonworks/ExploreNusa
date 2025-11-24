@@ -69,10 +69,3 @@
 4.  Push ke branch Anda (`git push origin fitur/fitur-baru`).
 5.  Buat Pull Request.
 
-## Lisensi 📄
-
-Tidak disebutkan.
-
-
----
-README.md ini dihasilkan secara otomatis oleh [README.MD Generator](https://github.com/emRival) — dibuat dengan ❤️ oleh [emRival](https://github.com/emRival)
