@@ -7,65 +7,65 @@
   <img style="margin-right: 8px;" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript Badge">
 </p>
 
-**ExploreNusa** adalah aplikasi web berbasis PHP yang didesain untuk memperkenalkan keindahan dan keberagaman destinasi wisata di seluruh Indonesia. Meskipun deskripsi awalnya singkat, proyek ini memiliki potensi besar untuk menjadi platform yang informatif dan menarik bagi para wisatawan lokal maupun mancanegara yang ingin menjelajahi pesona Indonesia.
+**ExploreNusa** is a PHP-based web application designed to showcase the beauty and diversity of tourist destinations across Indonesia. Although the initial description is brief, the project holds great potential to become an informative and engaging platform for both domestic and international travelers wishing to explore the charms of Indonesia.
 
 ## Fitur Utama ✨
 
-*   **Destinasi Wisata 🏞️:** Menampilkan informasi detail mengenai berbagai destinasi wisata di Indonesia, lengkap dengan gambar, deskripsi, dan lokasi.
-*   **Ulasan dan Rating ⭐:** Memungkinkan pengguna untuk memberikan ulasan dan rating pada destinasi wisata yang telah mereka kunjungi, membantu pengguna lain dalam membuat keputusan.
-*   **API Terintegrasi 🌐:** Menyediakan API untuk akses data destinasi dan ulasan, memungkinkan integrasi dengan aplikasi lain.
-*   **Manajemen Admin ⚙️:** Panel admin yang mudah digunakan untuk mengelola data destinasi, fasilitas, dan pengguna.
+*   **Tourist Destinations 🏞️:** Features detailed information on various tourist destinations in Indonesia, complete with images, descriptions, and locations.
+*   **Reviews and Ratings ⭐:** Allows users to leave reviews and ratings for destinations they have visited, helping others make informed decisions.
+*   **Integrated API 🌐:** Provides an API for accessing destination and review data, enabling integration with other applications.
+*   **Admin Management ⚙️:** A user-friendly admin panel for managing destination data, facilities, and users.
 
 ## Tech Stack 🛠️
 
-*   Bahasa Pemrograman: PHP
-*   Framework: Laravel (Kemungkinan berdasarkan struktur direktori dan keberadaan controller)
-*   Database: MySQL (Kemungkinan berdasarkan pola penggunaan umum pada aplikasi PHP)
-*   Frontend: JavaScript, HTML, CSS (Kemungkinan digunakan untuk interaksi dan tampilan antarmuka)
+*   Programming Language: PHP
+*   Framework: Laravel
+*   Database: MySQL
+*   Frontend: JavaScript, HTML, CSS
 
-## Instalasi & Menjalankan 🚀
+## Installation & Execution 🚀
 
-1.  Clone repositori:
+1.  Clone the repository:
     ```bash
     git clone https://github.com/Lyonworks/ExploreNusa
     ```
 
-2.  Masuk ke direktori:
+2.  Enter the directory:
     ```bash
     cd ExploreNusa
     ```
 
-3.  Install dependensi:
+3.  Install dependencies:
     ```bash
     composer install
-    npm install # Atau yarn install jika menggunakan Yarn
+    npm install # Or yarn install if using Yarn
     ```
 
-4.  Konfigurasi environment:
-    * Salin `.env.example` menjadi `.env`
-    * Konfigurasi detail database dan pengaturan lainnya di file `.env`
+4.  Configure the environment:
+    * Copy `.env.example` to `.env`
+    * Configure database details and other settings in the `.env` file
 
-5. Generate key aplikasi:
+5.  Generate the application key:
     ```bash
     php artisan key:generate
     ```
 
-6. Migrasi database dan seeder:
-   ```bash
-   php artisan migrate --seed
-   ```
-
-7. Jalankan proyek:
+6.  Run database migrations and seeders:
     ```bash
-    php artisan serve
-    npm run watch # Atau yarn run watch untuk development
+    php artisan migrate --seed
     ```
 
-## Cara Berkontribusi 🤝
+7.  Run the project:
+    ```bash
+    php artisan serve
+    npm run watch # Or yarn run watch for development
+    ```
 
-1.  Fork repositori ini.
-2.  Buat branch untuk fitur Anda (`git checkout -b fitur/fitur-baru`).
-3.  Lakukan commit pada perubahan Anda (`git commit -m 'Menambahkan fitur baru'`).
-4.  Push ke branch Anda (`git push origin fitur/fitur-baru`).
-5.  Buat Pull Request.
+## How to Contribute 🤝
+
+1.  Fork this repository.
+2.  Create a branch for your feature (`git checkout -b feature/new-feature`).
+3.  Commit your changes (`git commit -m 'Add new feature'`).
+4.  Push to your branch (`git push origin feature/new-feature`).
+5.  Create a Pull Request.
 
