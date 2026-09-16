@@ -90,10 +90,13 @@
 <section class="my-5" data-aos="fade-up" >
   <h3 class="text-center fw-bold mb-4">What Travelers Say</h3>
 
-  {{-- flash / pesan sukses --}}
+  {{-- pesan sukses --}}
   @if(session('success'))
-    <div class="alert alert-success" data-aos="fade-down">{{ session('success') }}</div>
-  @endif
+  <div class="alert alert-success alert-dismissible fade show" data-aos="fade-down" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
 
   {{-- errors --}}
   @if($errors->any())
@@ -140,7 +143,7 @@
           </div>
         </div>
       @empty
-        <p class="text-muted">No reviews yet. Be the first!</p>
+        <p class="text-muted text-center">No reviews yet. Be the first!</p>
       @endforelse
     </div>
 
