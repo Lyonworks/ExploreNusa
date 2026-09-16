@@ -8,21 +8,24 @@ use Illuminate\Support\Str;
 class Destination extends Model {
     use HasFactory;
 
-    protected $fillable = ['name','slug','location','description','image'];
+    protected $fillable = ['name','slug','location','description','facilities','image'];
 
-    public function facilities() {
-        return $this->hasMany(Facility::class);
-    }
+    protected $casts = [
+        'facilities' => 'array',
+    ];
 
-    public function reviews() {
+    public function reviews() 
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function getAverageRatingAttribute() {
+    public function getAverageRatingAttribute() 
+    {
         return $this->reviews()->avg('rating');
     }
 
-    protected static function booted() {
+    protected static function booted() 
+    {
         static::creating(function($model){
             if (empty($model->slug)) {
                 $model->slug = Str::slug($model->name);

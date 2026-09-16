@@ -4,21 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Destination;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
 
 class DestinationController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | ADMIN SECTION (CRUD)
+    | ADMIN SECTION
     |--------------------------------------------------------------------------
     */
-    public function index()
+    public function index(Request $request)
     {
-        $destinations = Destination::latest()->paginate(10);
+        $query = Destination::with('facilities');
+
+        if ($request->filled('location')) {
+            $query->where('location', $request->location);
+        }
+
+        $destinations = $query->latest()->paginate(10);
         return view('admin.destinations', compact('destinations'));
     }
 
@@ -30,65 +36,102 @@ class DestinationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'location'    => 'required|string|max:255',
-            'description' => 'required|string',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'         => 'required|string|max:255',
+            'location'     => 'required|string|max:255',
+            'description'  => 'required|string',
+            'image'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'facilities'   => 'nullable|array',
+            'facilities.*' => 'nullable|string|max:255',
         ]);
 
+        if (!empty($validated['facilities'])) {
+            $validated['facilities'] = array_values(array_filter(array_map('trim', $validated['facilities'])));
+        } else {
+            $validated['facilities'] = [];
+        }
+
         if ($request->hasFile('image')) {
-            $filename = Str::slug($request->name) . '.' . $request->image->extension();
+            $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
             $request->image->storeAs('public/destinations', $filename);
             $validated['image'] = 'destinations/' . $filename;
         }
 
         $destination = Destination::create($validated);
 
+        if (!empty($request->facilities)) {
+            foreach ($request->facilities as $facilityName) {
+                if (!empty(trim($facilityName))) {
+                    $destination->facilities()->create(['facility' => trim($facilityName)]);
+                }
+            }
+        }
+
         Activity::create([
-            'user_id' => auth()->id(),
-            'action' => 'create',
-            'model' => 'Destination',
-            'model_id' => $destination->id,
+            'user_id'     => auth()->id(),
+            'action'      => 'create',
+            'model'       => 'Destination',
+            'model_id'    => $destination->id,
             'description' => "Created destination: {$destination->name}"
         ]);
 
-        return redirect('/admin/destinations')->with('success', 'Destination created successfully!');
+        return redirect()->route('admin.destinations')->with('success', 'Destination created successfully!');
     }
 
     public function edit($id)
     {
-        $destination = Destination::findOrFail($id);
+        $destination = Destination::with('facilities')->findOrFail($id);
         return view('admin.destinations.edit', compact('destination'));
     }
 
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'location'    => 'required|string|max:255',
-            'description' => 'required|string',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'         => 'required|string|max:255',
+            'location'     => 'required|string|max:255',
+            'description'  => 'required|string',
+            'image'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'facilities'   => 'nullable|array',
+            'facilities.*' => 'nullable|string|max:255',
         ]);
 
         $destination = Destination::findOrFail($id);
 
+        if (!empty($validated['facilities'])) {
+            $validated['facilities'] = array_values(array_filter(array_map('trim', $validated['facilities'])));
+        } else {
+            $validated['facilities'] = [];
+        }
+
         if ($request->hasFile('image')) {
-            $filename = Str::slug($request->name) . '.' . $request->image->extension();
+            if ($destination->image && Storage::exists('public/' . $destination->image)) {
+                Storage::delete('public/' . $destination->image);
+            }
+            $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
             $request->image->storeAs('public/destinations', $filename);
             $validated['image'] = 'destinations/' . $filename;
         }
 
         $destination->update($validated);
 
+        // Synchronize Facilities (Hapus lama & masukkan baru)
+        $destination->facilities()->delete();
+        if (!empty($request->facilities)) {
+            foreach ($request->facilities as $facilityName) {
+                if (!empty(trim($facilityName))) {
+                    $destination->facilities()->create(['facility' => trim($facilityName)]);
+                }
+            }
+        }
+
         Activity::create([
-            'user_id' => auth()->id(),
-            'action' => 'update',
-            'model' => 'Destination',
-            'model_id' => $destination->id,
+            'user_id'     => auth()->id(),
+            'action'      => 'update',
+            'model'       => 'Destination',
+            'model_id'    => $destination->id,
             'description' => "Updated destination: {$destination->name}"
         ]);
 
-        return redirect('/admin/destinations')->with('success', 'Destination updated successfully!');
+        return redirect()->route('admin.destinations')->with('success', 'Destination updated successfully!');
     }
 
     public function destroy($id)
@@ -102,14 +145,14 @@ class DestinationController extends Controller
         $destination->delete();
 
         Activity::create([
-            'user_id' => auth()->id(),
-            'action' => 'delete',
-            'model' => 'Destination',
-            'model_id' => $destination->id,
+            'user_id'     => auth()->id(),
+            'action'      => 'delete',
+            'model'       => 'Destination',
+            'model_id'    => $destination->id,
             'description' => "Deleted destination: {$destination->name}"
         ]);
 
-        return redirect('/admin/destinations')->with('success', 'Destination deleted successfully!');
+        return redirect()->route('admin.destinations')->with('success', 'Destination deleted successfully!');
     }
 
     /*
@@ -117,7 +160,7 @@ class DestinationController extends Controller
     | USER SECTION
     |--------------------------------------------------------------------------
     */
-    public function list(Request $request   )
+    public function list(Request $request)
     {
         $query = Destination::query();
 
@@ -135,12 +178,8 @@ class DestinationController extends Controller
 
     public function show($id)
     {
-        $destination = Destination::with('facilities','reviews.user')->findOrFail($id);
-
-        // daftar destinasi untuk dropdown di form review
+        $destination = Destination::with(['facilities', 'reviews.user'])->findOrFail($id);
         $destinations = Destination::all();
-
-        // ambil reviews (sudah eager-loaded di atas, tapi tetap ambil collection)
         $reviews = $destination->reviews()->with('user')->latest()->get();
 
         return view('destinations.show', compact('destination', 'reviews', 'destinations'));
@@ -156,5 +195,4 @@ class DestinationController extends Controller
 
         return response()->json($results);
     }
-
 }

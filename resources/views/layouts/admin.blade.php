@@ -32,9 +32,6 @@
           <a href="/admin/destinations" class="nav-link text-white"><img src="{{ asset('storage/icons/location-dot-solid-full.svg') }}" width="22" height="22" class="me-2"> Destinations</a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/facilities" class="nav-link text-white"><img src="{{ asset('storage/icons/map-pin-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Facilities</a>
-        </li>
-        <li class="nav-item mb-2">
           <a href="/admin/trending" class="nav-link text-white"><img src="{{ asset('storage/icons/fire-solid-full.svg') }}" width="22" height="22" class="me-2"> Trending Tours</a>
         </li>
         <li class="nav-item mb-2">

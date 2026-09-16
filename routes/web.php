@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TopDestinationController;
 use App\Http\Controllers\TrendingTourController;
 use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
@@ -51,14 +50,6 @@ Route::middleware(['auth', EnsureRole::class . ':1,2'])->prefix('admin')->group(
     Route::get('/destinations/{id}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
     Route::put('/destinations/{id}', [DestinationController::class, 'update'])->name('destinations.update');
     Route::delete('/destinations/{id}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
-
-    // Facilities CRUD
-    Route::get('/facilities', [FacilityController::class, 'index'])->name('admin.facilities');
-    Route::get('/facilities/create', [FacilityController::class, 'create'])->name('facilities.create');
-    Route::post('/facilities', [FacilityController::class, 'store'])->name('facilities.store');
-    Route::get('/facilities/{id}/edit', [FacilityController::class, 'edit'])->name('facilities.edit');
-    Route::put('/facilities/{id}', [FacilityController::class, 'update'])->name('facilities.update');
-    Route::delete('/facilities/{id}', [FacilityController::class, 'destroy'])->name('facilities.destroy');
 
     // Trending CRUD
     Route::resource('/trending', TrendingTourController::class)->names([
