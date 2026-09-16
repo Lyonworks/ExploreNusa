@@ -3,6 +3,13 @@
 @section('content')
 <h2 class="fw-bold mb-4">Users</h2>
 
+@if(session('success'))
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
 <div class="card shadow-sm rounded-4 p-3">
   <div class="table-responsive">
     <table class="table table-theme align-middle mb-0">
@@ -21,7 +28,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role->name ?? '-' }}</td>
                 <td>
-                <a href="{{ route('admin.users.edit',$user->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{{ route('admin.users.edit',$user->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form action="{{ route('admin.users.destroy',$user->id) }}" method="POST" class="d-inline">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Delete</button>

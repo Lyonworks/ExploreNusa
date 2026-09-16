@@ -11,7 +11,20 @@
 </div>
 
 @if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
+@if($errors->any())
+  <div class="alert alert-danger">
+    <ul class="m-0">
+      @foreach($errors->all() as $err)
+        <li>{{ $err }}</li>
+      @endforeach
+    </ul>
+  </div>
 @endif
 
 <div class="card shadow-sm rounded-4 p-3">

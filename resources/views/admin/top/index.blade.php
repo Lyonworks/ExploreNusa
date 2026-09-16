@@ -11,7 +11,10 @@
 </div>
 
 @if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 @endif
 
 <div class="card shadow-sm rounded-4 p-3">
@@ -29,7 +32,7 @@
             <td>{{ $top->destination->name ?? '-' }}</td>
 
             <td>
-              <a href="{{ route('top.edit',$top->id) }}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{{ route('top.edit',$top->id) }}" class="btn btn-sm btn-warning">Edit</a>
               <form action="{{ route('top.destroy',$top->id) }}" method="POST" class="d-inline">
                 @csrf @method('DELETE')
                 <button class="btn btn-sm btn-danger">Delete</button>
