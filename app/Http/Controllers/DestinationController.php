@@ -10,6 +10,32 @@ use Illuminate\Support\Facades\Storage;
 
 class DestinationController extends Controller
 {
+    private function storageKey(?string $image): ?string
+    {
+        $image = trim((string) $image);
+
+        if ($image === '') {
+            return null;
+        }
+
+        $path = parse_url($image, PHP_URL_PATH) ?: $image;
+        $path = trim($path, '/');
+        $bucket = trim((string) config('filesystems.disks.s3.bucket'), '/');
+
+        if ($bucket !== '') {
+            $publicPrefix = "storage/v1/object/public/{$bucket}/";
+            $bucketPrefix = "{$bucket}/";
+
+            if (Str::startsWith($path, $publicPrefix)) {
+                $path = Str::after($path, $publicPrefix);
+            } elseif (Str::startsWith($path, $bucketPrefix)) {
+                $path = Str::after($path, $bucketPrefix);
+            }
+        }
+
+        return $path !== '' ? $path : null;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN SECTION
@@ -100,17 +126,10 @@ class DestinationController extends Controller
         $validated['slug'] = Str::slug($validated['name']);
 
         if ($request->hasFile('image')) {
-            // Hapus berkas lama dari Supabase jika ada dan valid
-            if ($destination->image) {
-                // Parse URL untuk mengambil path filenya saja
-                $parsedPath = parse_url($destination->image, PHP_URL_PATH);
-                $oldPath = ltrim((string) $parsedPath, '/');
+            $oldPath = $this->storageKey($destination->image);
 
-                // Jika path dari DB mengandung nama bucket di awalnya, bersihkan (opsional tergantung struktur URL Supabase)
-                // Pastikan $oldPath tidak kosong sebelum mengecek ke S3
-                if (!empty($oldPath) && Storage::disk('s3')->exists($oldPath)) {
-                    Storage::disk('s3')->delete($oldPath);
-                }
+            if ($oldPath !== null && Storage::disk('s3')->exists($oldPath)) {
+                Storage::disk('s3')->delete($oldPath);
             }
 
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
@@ -135,13 +154,10 @@ class DestinationController extends Controller
     {
         $destination = Destination::findOrFail($id);
 
-        if ($destination->image) {
-            $parsedPath = parse_url($destination->image, PHP_URL_PATH);
-            $oldPath = ltrim((string) $parsedPath, '/');
+        $oldPath = $this->storageKey($destination->image);
 
-            if (!empty($oldPath) && Storage::disk('s3')->exists($oldPath)) {
-                Storage::disk('s3')->delete($oldPath);
-            }
+        if ($oldPath !== null && Storage::disk('s3')->exists($oldPath)) {
+            Storage::disk('s3')->delete($oldPath);
         }
 
         $destination->delete();
