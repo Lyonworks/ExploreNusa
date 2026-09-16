@@ -100,10 +100,15 @@ class DestinationController extends Controller
         $validated['slug'] = Str::slug($validated['name']);
 
         if ($request->hasFile('image')) {
+            // Hapus berkas lama dari Supabase jika ada dan valid
             if ($destination->image) {
-                $oldPath = parse_url($destination->image, PHP_URL_PATH);
-                $oldPath = ltrim($oldPath, '/');
-                if (Storage::disk('s3')->exists($oldPath)) {
+                // Parse URL untuk mengambil path filenya saja
+                $parsedPath = parse_url($destination->image, PHP_URL_PATH);
+                $oldPath = ltrim((string) $parsedPath, '/');
+
+                // Jika path dari DB mengandung nama bucket di awalnya, bersihkan (opsional tergantung struktur URL Supabase)
+                // Pastikan $oldPath tidak kosong sebelum mengecek ke S3
+                if (!empty($oldPath) && Storage::disk('s3')->exists($oldPath)) {
                     Storage::disk('s3')->delete($oldPath);
                 }
             }
@@ -131,9 +136,10 @@ class DestinationController extends Controller
         $destination = Destination::findOrFail($id);
 
         if ($destination->image) {
-            $oldPath = parse_url($destination->image, PHP_URL_PATH);
-            $oldPath = ltrim($oldPath, '/');
-            if (Storage::disk('s3')->exists($oldPath)) {
+            $parsedPath = parse_url($destination->image, PHP_URL_PATH);
+            $oldPath = ltrim((string) $parsedPath, '/');
+
+            if (!empty($oldPath) && Storage::disk('s3')->exists($oldPath)) {
                 Storage::disk('s3')->delete($oldPath);
             }
         }
