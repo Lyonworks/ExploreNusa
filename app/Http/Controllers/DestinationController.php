@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DestinationController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN SECTION
+    |--------------------------------------------------------------------------
+    */
     public function index(Request $request)
     {
         $query = Destination::query();
@@ -48,11 +53,7 @@ class DestinationController extends Controller
 
         if ($request->hasFile('image')) {
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
-            
-            // Upload langsung ke Supabase Storage (S3 Disk)
-            $path = $request->file('image')->storeAs('uploads', $filename, 's3');
-            
-            // Ambil URL Publik langsung dari Supabase
+            $request->file('image')->storeAs('destinations', $filename, 's3');
             $validated['image'] = Storage::disk('s3')->url($path);
         }
 
@@ -97,14 +98,16 @@ class DestinationController extends Controller
         $validated['slug'] = Str::slug($validated['name']);
 
         if ($request->hasFile('image')) {
-            // Hapus gambar lama di Supabase jika ada
             if ($destination->image) {
                 $oldPath = parse_url($destination->image, PHP_URL_PATH);
-                Storage::disk('s3')->delete($oldPath);
+                $oldPath = ltrim($oldPath, '/');
+                if (Storage::disk('s3')->exists($oldPath)) {
+                    Storage::disk('s3')->delete($oldPath);
+                }
             }
 
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
-            $path = $request->file('image')->storeAs('uploads', $filename, 's3');
+            $path = $request->file('image')->storeAs('destinations', $filename, 's3');
             $validated['image'] = Storage::disk('s3')->url($path);
         }
 
@@ -127,7 +130,10 @@ class DestinationController extends Controller
 
         if ($destination->image) {
             $oldPath = parse_url($destination->image, PHP_URL_PATH);
-            Storage::disk('s3')->delete($oldPath);
+            $oldPath = ltrim($oldPath, '/');
+            if (Storage::disk('s3')->exists($oldPath)) {
+                Storage::disk('s3')->delete($oldPath);
+            }
         }
 
         $destination->delete();
@@ -143,6 +149,11 @@ class DestinationController extends Controller
         return redirect()->route('admin.destinations')->with('success', 'Destination deleted successfully!');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | USER SECTION
+    |--------------------------------------------------------------------------
+    */
     public function list(Request $request)
     {
         $query = Destination::query();
