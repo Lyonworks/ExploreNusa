@@ -19,29 +19,41 @@
       <hr class="border-light opacity-50 mb-4">
       <ul class="nav flex-column">
         <li class="nav-item mb-2">
-          <a href="/admin/dashboard" class="nav-link text-white"><img src="{{ asset('storage/icons/bars-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Dashboard</a>
+          <a href="/admin/dashboard" class="nav-link text-white">
+            <i class="fa-solid fa-bars me-2" style="width: 22px;"></i> Dashboard
+          </a>
         </li>
         @if(Auth::check() && Auth::user()->role_id == 1)
           <li class="nav-item mb-2">
             <a href="{{ route('admin.users.index') }}" class="nav-link text-white">
-              <img src="{{ asset('storage/icons/user-solid-full.svg') }}" alt="Users" width="22" height="22" class="me-2"> Users
+              <i class="fa-solid fa-user me-2" style="width: 22px;"></i> Users
             </a>
           </li>
         @endif
         <li class="nav-item mb-2">
-          <a href="/admin/destinations" class="nav-link text-white"><img src="{{ asset('storage/icons/location-dot-solid-full.svg') }}" width="22" height="22" class="me-2"> Destinations</a>
+          <a href="/admin/destinations" class="nav-link text-white">
+            <i class="fa-solid fa-location-dot me-2" style="width: 22px;"></i> Destinations
+          </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/trending" class="nav-link text-white"><img src="{{ asset('storage/icons/fire-solid-full.svg') }}" width="22" height="22" class="me-2"> Trending Tours</a>
+          <a href="/admin/trending" class="nav-link text-white">
+            <i class="fa-solid fa-fire me-2" style="width: 22px;"></i> Trending Tours
+          </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/top" class="nav-link text-white"><img src="{{ asset('storage/icons/star-solid-full.svg') }}" width="22" height="22" class="me-2"> Top Destinations</a>
+          <a href="/admin/top" class="nav-link text-white">
+            <i class="fa-solid fa-star me-2" style="width: 22px;"></i> Top Destinations
+          </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/reviews" class="nav-link text-white"><img src="{{ asset('storage/icons/comment-solid-full.svg') }}" width="22" height="22" class="me-2"> Reviews</a>
+          <a href="/admin/reviews" class="nav-link text-white">
+            <i class="fa-solid fa-comment me-2" style="width: 22px;"></i> Reviews
+          </a>
         </li>
         <li class="nav-item mb-2">
-          <a href="/admin/blogs" class="nav-link text-white"><img src="{{ asset('storage/icons/newspaper-solid-full.svg') }}" width="22" height="22" class="me-2"> Blogs</a>
+          <a href="/admin/blogs" class="nav-link text-white">
+            <i class="fa-solid fa-newspaper me-2" style="width: 22px;"></i> Blogs
+          </a>
         </li>
       </ul>
     </div>
