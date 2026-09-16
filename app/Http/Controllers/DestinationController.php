@@ -53,8 +53,10 @@ class DestinationController extends Controller
 
         if ($request->hasFile('image')) {
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
-            $request->file('image')->storeAs('destinations', $filename, 's3');
+            $path = $request->file('image')->storeAs('destinations', $filename, 's3');
             $validated['image'] = Storage::disk('s3')->url($path);
+        } else {
+            $validated['image'] = null;
         }
 
         $destination = Destination::create($validated);
