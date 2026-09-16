@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Destination;
-use App\Models\Facility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +17,7 @@ class DestinationController extends Controller
     */
     public function index(Request $request)
     {
-        $query = Destination::with('facilities');
+        $query = Destination::query();
 
         if ($request->filled('location')) {
             $query->where('location', $request->location);
@@ -58,14 +57,6 @@ class DestinationController extends Controller
 
         $destination = Destination::create($validated);
 
-        if (!empty($request->facilities)) {
-            foreach ($request->facilities as $facilityName) {
-                if (!empty(trim($facilityName))) {
-                    $destination->facilities()->create(['facility' => trim($facilityName)]);
-                }
-            }
-        }
-
         Activity::create([
             'user_id'     => auth()->id(),
             'action'      => 'create',
@@ -79,7 +70,7 @@ class DestinationController extends Controller
 
     public function edit($id)
     {
-        $destination = Destination::with('facilities')->findOrFail($id);
+        $destination = Destination::findOrFail($id);
         return view('admin.destinations.edit', compact('destination'));
     }
 
@@ -112,16 +103,6 @@ class DestinationController extends Controller
         }
 
         $destination->update($validated);
-
-        // Synchronize Facilities (Hapus lama & masukkan baru)
-        $destination->facilities()->delete();
-        if (!empty($request->facilities)) {
-            foreach ($request->facilities as $facilityName) {
-                if (!empty(trim($facilityName))) {
-                    $destination->facilities()->create(['facility' => trim($facilityName)]);
-                }
-            }
-        }
 
         Activity::create([
             'user_id'     => auth()->id(),
@@ -178,7 +159,7 @@ class DestinationController extends Controller
 
     public function show($id)
     {
-        $destination = Destination::with(['facilities', 'reviews.user'])->findOrFail($id);
+        $destination = Destination::with(['reviews.user'])->findOrFail($id);
         $destinations = Destination::all();
         $reviews = $destination->reviews()->with('user')->latest()->get();
 

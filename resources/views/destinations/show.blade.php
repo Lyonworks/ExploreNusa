@@ -47,13 +47,15 @@
         <p class="mb-4" data-aos="fade-up" data-aos-delay="200">{{ $destination->description }}</p>
 
         {{-- Facilities --}}
-        @if($destination->facilities->count())
+        @if(!empty($destination->facilities) && is_array($destination->facilities))
           <h6 class="fw-bold" data-aos="fade-up" data-aos-delay="300">Facilities</h6>
           <ul class="list-unstyled mb-0">
-            @foreach($destination->facilities as $facility)
-              <li data-aos="fade-up" data-aos-delay="{{ 400 + $loop->index * 100 }}">• {{ $facility->facility }}</li>
+            @foreach($destination->facilities as $fac)
+              <li data-aos="fade-up" data-aos-delay="{{ 400 + $loop->index * 100 }}">• {{ $fac }}</li>
             @endforeach
           </ul>
+        @else
+          <p class="text-muted">There are no facilities.</p>
         @endif
 
         <a href="{{ route('destinations.index') }}"
