@@ -29,7 +29,7 @@
       <tbody>
         @foreach($tops as $top)
           <tr class="text-center">
-            <td>{{ $top->destination->name ?? '-' }}</td>
+            <td class="fw-semibold">{{ $top->destination->name ?? '-' }}</td>
 
             <td>
               <a href="{{ route('top.edit',$top->id) }}" class="btn btn-sm btn-warning">Edit</a>

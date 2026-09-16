@@ -43,9 +43,9 @@
       <tbody>
         @forelse($blogs as $blog)
             <tr class="text-center align-middle">
-            <td>{{ $blog->title }}</td>
+            <td class="fw-semibold">{{ $blog->title }}</td>
             <td>{{ $blog->author ?? 'N/A' }}</td>
-            <td>{{ Str::limit($blog->content, 80) }}</td>
+            <td class="text-start">{{ Str::limit($blog->content, 100) }}</td>
             <td>
                 @if($blog->image)
                 <img src="{{ asset('storage/'.$blog->image) }}" alt="{{ $blog->title }}" width="80" class="rounded">

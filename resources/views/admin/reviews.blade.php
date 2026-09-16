@@ -91,7 +91,7 @@
             <tbody>
                 @foreach($reviews as $review)
                 <tr class="text-center">
-                    <td>
+                    <td class="fw-semibold">
                         @if($review->user)
                             {{ $review->user->name }}
                         @else

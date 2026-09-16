@@ -29,7 +29,7 @@
       <tbody>
         @foreach($tours as $tour)
           <tr class="text-center">
-            <td>{{ $tour->destination->name ?? '-' }}</td>
+            <td class="fw-semibold">{{ $tour->destination->name ?? '-' }}</td>
             <td>
               <a href="{{ route('trending.edit',$tour->id) }}" class="btn btn-sm btn-warning">Edit</a>
               <form action="{{ route('trending.destroy',$tour->id) }}" method="POST" class="d-inline">

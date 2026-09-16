@@ -24,7 +24,7 @@
         <tbody>
             @foreach($users as $user)
             <tr class="text-center">
-                <td>{{ $user->name }}</td>
+                <td class="fw-semibold">{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role->name ?? '-' }}</td>
                 <td>
