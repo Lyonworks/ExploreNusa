@@ -18,7 +18,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ $dest->name }}</h5>
           <p class="text-muted small">{{ Str::limit($dest->description, 60) }}</p>
-          <a href="{{ route('destinations.show', $dest->id) }}" class="btn btn-theme w-100">View Detail</a>
+          <a href="{{ route('destinations.show', $dest->slug) }}" class="btn btn-theme w-100">View Detail</a>
         </div>
       </div>
     </div>

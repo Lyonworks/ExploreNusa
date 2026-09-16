@@ -115,10 +115,10 @@ class BlogController extends Controller
         return view('blogs.index', compact('blogs'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $blog = Blog::findOrFail($id);
-        $recentBlogs = Blog::where('id', '!=', $id)
+        $blog = Blog::where('slug', $slug)->firstOrFail();
+        $recentBlogs = Blog::where('id', '!=', $blog->id)
                         ->latest()
                         ->take(3)
                         ->get();

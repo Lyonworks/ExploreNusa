@@ -27,7 +27,7 @@ class DestinationController extends Controller
             'image' => 'nullable|string',
             'slug' => 'nullable|string|max:190|unique:destinations,slug',
         ]);
-        if (empty($data['slug'])) $data['slug'] = Str::slug($data['name'].'-'.uniqid());
+        $data['slug'] = Str::slug($data['name']);
         $destination = Destination::create($data);
         return response()->json(['message' => 'Destinasi dibuat','data' => $destination], 201);
     }
@@ -43,6 +43,7 @@ class DestinationController extends Controller
             'image' => 'nullable|string',
             'slug' => "nullable|string|max:190|unique:destinations,slug,{$id}",
         ]);
+        $data['slug'] = Str::slug($data['name'] ?? $destination->name);
         $destination->update($data);
         return response()->json(['message' => 'Destinasi diupdate','data' => $destination]);
     }

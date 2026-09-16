@@ -32,7 +32,7 @@
         <img src="{{ $recent->image ? asset('storage/'.$recent->image) : 'https://via.placeholder.com/100x70' }}"
              class="flex-shrink-0 rounded me-3" alt="{{ $recent->title }}" style="width:90px; height:70px; object-fit:cover;">
         <div>
-          <a href="{{ route('blogs.show',$recent->id) }}" class="fw-semibold text-dark d-block">
+          <a href="{{ route('blogs.show',$recent->slug) }}" class="fw-semibold text-dark d-block">
             {{ Str::limit($recent->title, 40) }}
           </a>
           <small class="text-muted d-flex align-items-center">
@@ -51,7 +51,7 @@
         <img src="{{ $dest->image ? asset('storage/'.$dest->image) : 'https://via.placeholder.com/100x70' }}"
              class="flex-shrink-0 rounded me-3" alt="{{ $dest->name }}" style="width:90px; height:70px; object-fit:cover;">
         <div>
-          <a href="{{ route('destinations.show',$dest->id) }}" class="fw-semibold text-dark d-block">
+          <a href="{{ route('destinations.show',$dest->slug) }}" class="fw-semibold text-dark d-block">
             {{ Str::limit($dest->name, 40) }}
           </a>
           <small class="text-muted d-block">{{ Str::limit($dest->location, 30) }}</small>

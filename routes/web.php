@@ -15,10 +15,10 @@ use App\Http\Middleware\EnsureRole;
 // ==================== USER ====================
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/destinations', [DestinationController::class, 'list'])->name('destinations.index');
-Route::get('/destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
+Route::get('/destinations/{slug}', [DestinationController::class, 'show'])->name('destinations.show');
 Route::get('/search', [DestinationController::class, 'search'])->name('destinations.search');
 Route::get('/blogs', [BlogController::class, 'list'])->name('blogs.index');
-Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/blogs/{slug}', [BlogController::class, 'show'])->name('blogs.show');
 
 // ==================== REVIEW ===================
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');

@@ -33,7 +33,7 @@
       <div class="col-6 col-md-3"
            data-aos="zoom-in"
            data-aos-delay="{{ $loop->index * 100 }}">
-        <a href="{{ route('destinations.show', $tour->destination->id) }}"
+        <a href="{{ route('destinations.show', $tour->destination->slug) }}"
            class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100">
             <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
@@ -69,7 +69,7 @@
   <div class="row g-4">
     @foreach($topDestinations as $top)
       <div class="col-12 col-md-4" data-aos="fade-up"  data-aos-delay="{{ $loop->index * 150 }}">
-        <a href="{{ route('destinations.show', $top->destination->id) }}"
+        <a href="{{ route('destinations.show', $top->destination->slug) }}"
            class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100">
             <img src="{{ $top->destination->image ? asset('storage/'.$top->destination->image) : 'https://via.placeholder.com/400x250' }}"

@@ -49,6 +49,8 @@ class DestinationController extends Controller
             $validated['facilities'] = [];
         }
 
+        $validated['slug'] = Str::slug($validated['name']);
+
         if ($request->hasFile('image')) {
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
             $request->image->storeAs('public/destinations', $filename);
@@ -92,6 +94,8 @@ class DestinationController extends Controller
         } else {
             $validated['facilities'] = [];
         }
+
+        $validated['slug'] = Str::slug($validated['name']);
 
         if ($request->hasFile('image')) {
             if ($destination->image && Storage::exists('public/' . $destination->image)) {
@@ -157,9 +161,9 @@ class DestinationController extends Controller
         return view('destinations.index', compact('destinations'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $destination = Destination::with(['reviews.user'])->findOrFail($id);
+        $destination = Destination::with(['reviews.user'])->where('slug', $slug)->firstOrFail();
         $destinations = Destination::all();
         $reviews = $destination->reviews()->with('user')->latest()->get();
 
