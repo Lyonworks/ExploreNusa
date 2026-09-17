@@ -21,6 +21,16 @@ class Destination extends Model {
             return null;
         }
 
+        $path = parse_url($this->image, PHP_URL_PATH) ?: $this->image;
+        $bucket = trim((string) config('filesystems.disks.s3.bucket'), '/');
+        $dashboardPrefix = "/storage/files/buckets/{$bucket}/";
+
+        if ($bucket !== '' && Str::contains($path, $dashboardPrefix)) {
+            $objectPath = Str::after($path, $dashboardPrefix);
+
+            return rtrim((string) config('filesystems.disks.s3.url'), '/') . '/' . ltrim($objectPath, '/');
+        }
+
         return filter_var($this->image, FILTER_VALIDATE_URL)
             ? $this->image
             : Storage::disk('public')->url($this->image);
