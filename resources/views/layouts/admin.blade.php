@@ -66,7 +66,7 @@
       @if(Auth::check())
       <div class="d-flex justify-content-between align-items-center text-white mb-4 p-3 rounded shadow-sm" style="background: #2F4F4F;">
         <div>
-          <h5 class="mb-0">👋 Hai, {{ Auth::user()->name }}</h5>
+          <h5 class="text-white mb-0">Hai, {{ Auth::user()->name }}</h5>
           <small>Role:
             @if(Auth::user()->role_id == 1)
               Superadmin
