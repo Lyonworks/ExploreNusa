@@ -10,7 +10,7 @@
       {{-- Kolom kiri --}}
       <div class="col-md-5 d-flex flex-column" data-aos="fade-right" data-aos-duration="1000">
         {{-- Gambar --}}
-        <img src="{{ $destination->image ? asset('storage/'.$destination->image) : 'https://via.placeholder.com/600x400' }}"
+        <img src="{{ $destination->image_url ?: 'https://via.placeholder.com/600x400' }}"
              class="img-fluid rounded-3 mb-3 w-100"
              alt="{{ $destination->name }}">
 

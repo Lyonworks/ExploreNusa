@@ -36,7 +36,7 @@
         <a href="{{ route('destinations.show', $tour->destination->slug) }}"
            class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100">
-            <img src="{{ $tour->destination->image ? asset('storage/'.$tour->destination->image) : 'https://via.placeholder.com/300x200' }}"
+            <img src="{{ $tour->destination->image_url ?: 'https://via.placeholder.com/300x200' }}"
                 class="card-img-top"
                 alt="{{ $tour->destination->name }}">
             <div class="card-body text-center">
@@ -72,7 +72,7 @@
         <a href="{{ route('destinations.show', $top->destination->slug) }}"
            class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100">
-            <img src="{{ $top->destination->image ? asset('storage/'.$top->destination->image) : 'https://via.placeholder.com/400x250' }}"
+            <img src="{{ $top->destination->image_url ?: 'https://via.placeholder.com/400x250' }}"
                  class="card-img-top"
                  alt="{{ $top->destination->name }}">
             <div class="card-body">

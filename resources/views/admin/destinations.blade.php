@@ -91,7 +91,7 @@
             </td>
             <td>
               @if($d->image)
-                <img src="{{ asset('storage/'.$d->image) }}" alt="{{ $d->name }}" class="img-thumbnail" style="max-width: 100px;">
+                <img src="{{ $d->image_url }}" alt="{{ $d->name }}" class="img-thumbnail" style="max-width: 100px;">
               @else
                 <span class="text-muted">No image</span>
               @endif

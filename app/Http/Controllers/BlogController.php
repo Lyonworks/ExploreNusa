@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Blog;
 use App\Models\Destination;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -33,7 +34,8 @@ class BlogController extends Controller
         $validated['slug'] = Str::slug($validated['title']);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('blogs', 'public');
+            $path = $request->file('image')->store('blogs', 's3');
+            $validated['image'] = Storage::disk('s3')->url($path);
         }
 
         $blog = Blog::create($validated);
@@ -72,7 +74,12 @@ class BlogController extends Controller
         $validated['slug'] = Str::slug($validated['title']);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('blogs', 'public');
+            $path = $request->file('image')->store('blogs', 's3');
+            $validated['image'] = Storage::disk('s3')->url($path);
+
+            if ($blog->image) {
+                Storage::disk('s3')->delete($this->storageKey($blog->image));
+            }
         }
 
         $blog->update($validated);
@@ -96,6 +103,10 @@ class BlogController extends Controller
     }
 
     public function destroy(Blog $blog) {
+        if ($blog->image) {
+            Storage::disk('s3')->delete($this->storageKey($blog->image));
+        }
+
         $blog->delete();
 
         Activity::create([
@@ -107,6 +118,19 @@ class BlogController extends Controller
         ]);
 
         return redirect('/admin/blogs')->with('success','Blog deleted successfully!');
+    }
+
+    private function storageKey(?string $image): ?string
+    {
+        $path = trim((string) (parse_url($image ?? '', PHP_URL_PATH) ?: $image));
+        $bucket = trim((string) config('filesystems.disks.s3.bucket'), '/');
+
+        if ($bucket !== '') {
+            $path = Str::after($path, "storage/v1/object/public/{$bucket}/");
+            $path = Str::after($path, "{$bucket}/");
+        }
+
+        return trim($path, '/') ?: null;
     }
 
     // User

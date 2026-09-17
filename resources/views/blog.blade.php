@@ -11,7 +11,7 @@
     @forelse($blogs as $blog)
     <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
       <div class="card h-100 shadow-sm">
-        <img src="{{ $blog->image ? asset('storage/'.$blog->image) : 'https://via.placeholder.com/400x250' }}"
+        <img src="{{ $blog->image_url ?: 'https://via.placeholder.com/400x250' }}"
              class="card-img-top" alt="{{ $blog->title }}">
         <div class="card-body">
           <h5 class="card-title">{{ $blog->title }}</h5>

@@ -44,7 +44,7 @@
     @if($blog->image)
       <div class="mb-3">
         <label class="form-label d-block">Current Image</label>
-        <img src="{{ asset('storage/'.$blog->image) }}" alt="Blog Image"
+        <img src="{{ $blog->image_url }}" alt="Blog Image"
              class="img-fluid rounded shadow-sm mb-2" style="max-width: 250px;">
       </div>
     @endif

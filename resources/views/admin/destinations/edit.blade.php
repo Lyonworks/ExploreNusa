@@ -50,7 +50,7 @@
     <div class="mb-3">
       <label class="form-label fw-semibold">Current Image</label><br>
       @if($destination->image)
-        <img src="{{ asset('storage/'.$destination->image) }}" alt="Destination Image" class="img-thumbnail mb-2" width="200">
+        <img src="{{ $destination->image_url }}" alt="Destination Image" class="img-thumbnail mb-2" width="200">
       @else
         <p class="text-muted">No image uploaded.</p>
       @endif

@@ -133,10 +133,6 @@ class DestinationController extends Controller
         if ($request->hasFile('image')) {
             $oldPath = $this->storageKey($destination->image);
 
-            if ($oldPath !== null) {
-                Storage::disk('s3')->delete($oldPath);
-            }
-
             $filename = Str::slug($request->name) . '-' . time() . '.' . $request->image->extension();
             $path = $request->file('image')->storeAs('destinations', $filename, 's3');
 
@@ -145,6 +141,10 @@ class DestinationController extends Controller
             }
 
             $validated['image'] = Storage::disk('s3')->url($path);
+
+            if ($oldPath !== null) {
+                Storage::disk('s3')->delete($oldPath);
+            }
         }
 
         $destination->update($validated);

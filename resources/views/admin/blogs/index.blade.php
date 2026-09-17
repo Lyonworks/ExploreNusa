@@ -48,7 +48,7 @@
             <td class="text-start">{{ Str::limit($blog->content, 100) }}</td>
             <td>
                 @if($blog->image)
-                <img src="{{ asset('storage/'.$blog->image) }}" alt="{{ $blog->title }}" width="80" class="rounded">
+                <img src="{{ $blog->image_url }}" alt="{{ $blog->title }}" width="80" class="rounded">
                 @else
                 <span class="text-muted">No Image</span>
                 @endif

@@ -8,7 +8,7 @@
     {{-- Main Article --}}
     <div class="col-lg-8">
       <h1 class="fw-bold mb-4">{{ $blog->title }}</h1>
-      <img src="{{ $blog->image ? asset('storage/'.$blog->image) : 'https://via.placeholder.com/800x400' }}"
+      <img src="{{ $blog->image_url ?: 'https://via.placeholder.com/800x400' }}"
            class="img-fluid rounded mb-4" alt="{{ $blog->title }}">
 
       <div class="text-muted mb-4 d-flex align-items-center">
@@ -29,7 +29,7 @@
       <h4 class="fw-bold mb-4">Recent Articles</h4>
       @foreach($recentBlogs as $recent)
       <div class="d-flex mb-3 align-items-center">
-        <img src="{{ $recent->image ? asset('storage/'.$recent->image) : 'https://via.placeholder.com/100x70' }}"
+        <img src="{{ $recent->image_url ?: 'https://via.placeholder.com/100x70' }}"
              class="flex-shrink-0 rounded me-3" alt="{{ $recent->title }}" style="width:90px; height:70px; object-fit:cover;">
         <div>
           <a href="{{ route('blogs.show',$recent->slug) }}" class="fw-semibold text-dark d-block">
@@ -48,7 +48,7 @@
       <h4 class="fw-bold mt-5 mb-4">Suggested Destinations</h4>
       @foreach($suggestedDestinations as $dest)
       <div class="d-flex mb-3 align-items-center">
-        <img src="{{ $dest->image ? asset('storage/'.$dest->image) : 'https://via.placeholder.com/100x70' }}"
+        <img src="{{ $dest->image_url ?: 'https://via.placeholder.com/100x70' }}"
              class="flex-shrink-0 rounded me-3" alt="{{ $dest->name }}" style="width:90px; height:70px; object-fit:cover;">
         <div>
           <a href="{{ route('destinations.show',$dest->slug) }}" class="fw-semibold text-dark d-block">
